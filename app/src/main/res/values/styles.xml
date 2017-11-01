@@ -1,0 +1,50 @@
+<resources>
+
+	<!-- Base application theme. -->
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="windowActionModeOverlay">true</item>
+		<item name="android:windowActionModeOverlay">true</item>
+		<item name="android:actionModeBackground">@color/colorPrimary</item>
+		<item name="actionModeBackground">@color/colorPrimary</item>
+	</style>
+	<style name="SplashTheme" parent="AppTheme">
+		<item name="android:windowIsTranslucent">true</item>
+		<item name="android:windowBackground">@android:color/transparent</item>
+	</style>
+	<style name="ToolBarTheme" parent="Base.Widget.AppCompat.Light.ActionBar">
+		<item name="android:background">@color/colorPrimary</item>
+		<item name="android:id">@id/ToolBar</item>
+		<item name="android:contentInsetStart">0dp</item>
+		<item name="contentInsetStart">0dp</item>
+		<item name="android:contentInsetEnd">0dp</item>
+		<item name="contentInsetEnd">0dp</item>
+		<item name="android:textColorPrimary">@android:color/white</item>
+		<item name="android:colorControlNormal">@android:color/white</item>
+		<item name="titleMarginStart">3dp</item>
+		<item name="titleTextStyle">@style/ToolBarTitle</item>
+
+	</style>
+	<style name="ToolBarTitle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
+		<item name="android:textSize">16sp</item>
+	</style>
+	<style name="Title_TextView" parent="TextAppearance.AppCompat.Title">
+		<item name="android:textColor">@android:color/darker_gray</item>
+		<item name="android:textSize">16sp</item>
+	</style>
+
+	<style name="Small_TextView" parent="Title_TextView">
+		<item name="android:textSize">12sp</item>
+	</style>
+	<style name="SettingTextView">
+		<item name="android:layout_height">50dp</item>
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:textSize">18sp</item>
+		<item name="android:paddingLeft">8dp</item>
+		<item name="android:layout_marginLeft">16dp</item>
+		<item name="android:gravity">center_vertical</item>
+	</style>
+</resources>

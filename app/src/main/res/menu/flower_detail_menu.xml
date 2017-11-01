@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item android:id="@+id/id_menu_share" android:icon="@drawable/ic_share_24dp"
+	      android:title="@string/share"
+	      app:showAsAction="always"
+	/>
+	<item android:id="@+id/id_menu_download" android:icon="@drawable/ic_download"
+	      android:title="@string/download"
+	      app:showAsAction="always"/>
+	<item android:id="@+id/id_menu_set_wallpaper" android:icon="@drawable/ic_wallpaper_24dp"
+	      android:title="@string/set_wallpaper"
+	      app:showAsAction="always"/>
+</menu>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:scrollbars="none"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+	<LinearLayout android:layout_width="match_parent"
+	              android:layout_height="wrap_content"
+	              android:divider="@drawable/divider"
+	              android:orientation="vertical" android:showDividers="middle">
+
+		<LinearLayout android:id="@+id/ll_collection"
+		              android:layout_width="match_parent"
+		              android:layout_height="wrap_content"
+		              android:background="?android:attr/selectableItemBackground"
+		              android:clickable="true"
+		              android:focusable="true"
+		              android:orientation="horizontal"
+		              android:paddingLeft="10dp"
+		              android:paddingRight="10dp"
+		>
+
+			<ImageView android:layout_width="30dp"
+			           android:layout_height="30dp"
+			           android:layout_gravity="center_vertical"
+			           android:scaleType="center"
+			           android:tint="@color/alert_red"
+			           app:srcCompat="@drawable/ic_like"
+			/>
+			<TextView
+				style="@style/SettingTextView"
+				android:drawableEnd="@mipmap/arrow_right"
+				android:text="@string/my_collection"
+
+			/>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/ll_about_me"
+		              android:layout_width="match_parent"
+		              android:layout_height="wrap_content"
+		              android:background=" ?android:attr/selectableItemBackground"
+		              android:clickable="true"
+		              android:focusable="true"
+		              android:orientation="horizontal"
+		              android:paddingLeft="10dp"
+		              android:paddingRight="10dp">
+
+			<ImageView android:layout_width="30dp"
+			           android:layout_height="30dp"
+			           android:layout_gravity="center_vertical"
+			           android:scaleType="center"
+			           android:tint="@color/Blue_Grey"
+			           app:srcCompat="@drawable/ic_about_me"
+			/>
+			<TextView
+				style="@style/SettingTextView"
+				android:drawableEnd="@mipmap/arrow_right"
+				android:enabled="true"
+				android:text="@string/about_me"
+			/>
+
+		</LinearLayout>
+		<LinearLayout android:id="@+id/ll_clear_cache"
+		              android:layout_width="match_parent"
+		              android:layout_height="wrap_content"
+		              android:background=" ?android:attr/selectableItemBackground"
+		              android:clickable="true"
+		              android:focusable="true"
+		              android:orientation="horizontal"
+		              android:paddingLeft="10dp"
+		              android:paddingRight="10dp">
+
+			<ImageView android:layout_width="30dp"
+			           android:layout_height="30dp"
+			           android:layout_gravity="center_vertical"
+			           android:scaleType="center"
+			           android:tint="@color/colorPrimary"
+			           app:srcCompat="@drawable/ic_clearcache"
+			/>
+			<TextView
+				style="@style/SettingTextView"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:enabled="true"
+				android:text="@string/clear_cache"
+			/>
+			<TextView android:id="@+id/id_cacheSize" android:layout_width="wrap_content"
+			          android:layout_height="match_parent"
+			          android:layout_gravity="center_vertical|right"
+			          android:gravity="center"
+			          android:text="9.00MB"
+			/>
+		</LinearLayout>
+
+
+		<TextView android:id="@+id/tv_version"
+		          android:layout_width="match_parent"
+		          android:layout_height="50dp"
+		          android:background="@null"
+		          android:enabled="true"
+		          android:gravity="center"
+		          android:text="版本: v1.0.0"
+		          android:textColor="@color/colorAccent"
+		          android:textSize="16sp"
+		/>
+	</LinearLayout>
+
+</ScrollView>

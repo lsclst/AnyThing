@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolVersion
+    defaultConfig {
+        applicationId "com.lsc.anything"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetVersion
+        versionCode 1
+        versionName "1.0.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibsVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibsVersion"
+    compile "com.android.support:design:$rootProject.supportLibsVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibsVersion"
+    //RXJava & RXAndroid
+    //Retrofit 2.X
+    compile "com.squareup.retrofit2:retrofit:$rootProject.RetrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.RetrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.RetrofitVersion"
+    //Glide
+    //ButterKnife
+    compile "com.jakewharton:butterknife:$rootProject.ButterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ButterKnifeVersion"
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+    compile 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
+    compile files('libs/ormlite-android-5.0.jar')
+    testCompile 'junit:junit:4.12'
+}

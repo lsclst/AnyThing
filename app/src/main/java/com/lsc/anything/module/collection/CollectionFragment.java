@@ -1,0 +1,227 @@
+package com.lsc.anything.module.collection;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.ActionMode;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.lsc.anything.R;
+import com.lsc.anything.WebViewActivity;
+import com.lsc.anything.base.ListFragment;
+import com.lsc.anything.database.CollectionDao;
+import com.lsc.anything.entity.collection.Collection;
+import com.lsc.anything.entity.gank.GankItem;
+import com.lsc.anything.module.flower.FlowerDetailActivity;
+import com.lsc.anything.utils.AvatarUtil;
+import com.lsc.anything.utils.DateUtil;
+import com.lsc.anything.widget.recylerview.BaseViewHolder;
+import com.lsc.anything.widget.recylerview.HeaderAndFooterAdapter;
+import com.lsc.anything.widget.recylerview.MultiChoiceAdapter;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by lsc on 2017/10/31 0031.
+ *
+ * @author lsc
+ */
+
+public class CollectionFragment extends ListFragment<Collection> {
+    public static final String KEY_TYPE = "type";
+    public static final int TYPE_IMAGE = 11;
+    public static final int TYPE_ARTICLE = 22;
+
+    private int mCurType;
+    private MultiChoiceAdapter<Collection> mAdapter;
+    private CollectionDao mCollectionDao;
+
+    public static CollectionFragment getInstance(int type) {
+        CollectionFragment c = new CollectionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(KEY_TYPE, type);
+        c.setArguments(bundle);
+        return c;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        mSwipeRefreshLayout.setEnabled(false);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        mCollectionDao = new CollectionDao();
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    @Override
+    public void fetchData() {
+        mAdapter.setData(mCurType == TYPE_IMAGE ? mCollectionDao.getAllImage(getContext()) :
+                mCollectionDao.getAllArticle(getContext()));
+    }
+
+    @Override
+    protected RecyclerView.LayoutManager getLayoutManager() {
+        mCurType = getArguments().getInt(KEY_TYPE, TYPE_ARTICLE);
+        return mCurType == TYPE_IMAGE ? new GridLayoutManager(getContext(), 2) : new LinearLayoutManager(getContext());
+    }
+
+    @Override
+    protected HeaderAndFooterAdapter<Collection> getAdapter(List<Collection> datas) {
+        MultiChoiceAdapter.OnMultiChoiceListener listener = new MultiChoiceAdapter.OnMultiChoiceListener() {
+            @Override
+            public boolean onMultiChoiceActionModeClick(ActionMode actionMode, int clickId) {
+                switch (clickId) {
+                    case R.id.id_menu_delete_all:
+
+                        mAdapter.clearData();
+                        break;
+                    case R.id.id_menu_delete:
+                        mAdapter.deleteSelectedItems();
+                        break;
+                    default:
+                        actionMode.finish();
+                        break;
+                }
+                return true;
+            }
+
+            @Override
+            public void onMultiItemClick() {
+                ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+                if (supportActionBar != null) {
+                    List selectedItems = mAdapter.getSelectedItems();
+                    supportActionBar.setTitle(String.format("已选择(%s)", selectedItems != null ? selectedItems.size() : 0));
+                }
+            }
+
+            @Override
+            public void onMultiChoiceActionModeClose() {
+                
+                mAdapter.finishedActionMode();
+            }
+        };
+        if (mCurType == TYPE_IMAGE) {
+            mAdapter = new ImageAdapter(getContext(), R.menu.collection_menu, listener);
+        } else {
+            mAdapter = new ArticleAdapter(getContext(), R.menu.collection_menu, listener);
+        }
+        mAdapter.setOnItemClickListener(new HeaderAndFooterAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseViewHolder holder, int position, Object item) {
+                if (item instanceof Collection) {
+                    if (((Collection) item).getType() == Collection.TYPE_ARTICLE) {
+                        WebViewActivity.start(getContext(), ((Collection) item).getUrl(), ((Collection) item).getDes());
+                    } else {
+                        ArrayList<GankItem> items = new ArrayList<>();
+                        for (Collection c :
+                                mAdapter.getData()) {
+                            items.add(c.toGankItem());
+                        }
+                        FlowerDetailActivity.startForResult(CollectionFragment.this, items, position);
+                    }
+                }
+            }
+
+            @Override
+            public void onItemLongClick(BaseViewHolder holder, int position, Object item) {
+
+            }
+        });
+        return mAdapter;
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    private static class ImageAdapter extends MultiChoiceAdapter<Collection> {
+
+        public ImageAdapter(Context context, List data, int menuid, OnMultiChoiceListener onMultiChoiceListener) {
+            super(context, data, menuid, onMultiChoiceListener);
+        }
+
+        public ImageAdapter(Context context, int menuid, OnMultiChoiceListener onMultiChoiceListener) {
+            super(context, menuid, onMultiChoiceListener);
+        }
+
+        @Override
+        protected void onDataViewBind(BaseViewHolder holder, int position) {
+            super.onDataViewBind(holder, position);
+            Collection collection = getData().get(position);
+            File file = new File(collection.getLocalPath());
+            ImageView targetView = holder.getViewById(R.id.id_flower_img);
+            if (file.exists()) {
+                Glide.with(holder.itemView.getContext()).load(file).into(targetView);
+            } else {
+                Glide.with(holder.itemView.getContext()).load(collection.getUrl()).into(targetView);
+            }
+        }
+
+        @Override
+        protected void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isSelected) {
+            holder.getViewById(R.id.id_checkbox).setVisibility(View.VISIBLE);
+            holder.getViewById(R.id.id_checkbox).setSelected(isSelected);
+        }
+
+        @Override
+        protected int getItemViewId() {
+            return R.layout.flower_item;
+        }
+
+
+    }
+
+    private static class ArticleAdapter extends MultiChoiceAdapter<Collection> {
+
+        public ArticleAdapter(Context context, List data, int menuid, OnMultiChoiceListener onMultiChoiceListener) {
+            super(context, data, menuid, onMultiChoiceListener);
+        }
+
+        public ArticleAdapter(Context context, int menuid, OnMultiChoiceListener onMultiChoiceListener) {
+            super(context, menuid, onMultiChoiceListener);
+        }
+
+        @Override
+        protected void onDataViewBind(BaseViewHolder holder, int position) {
+            super.onDataViewBind(holder, position);
+            Collection item = getData().get(position);
+            ((TextView) holder.getViewById(R.id.id_study_title)).setText(item.getDes());
+            ((TextView) holder.getViewById(R.id.id_author)).setText(item.getWho());
+            ((TextView) holder.getViewById(R.id.id_publish_at)).setText(DateUtil.getINSTANCE().formatDate(item.getCollectionDate()));
+            ((ImageView) holder.getViewById(R.id.id_avatar)).setImageDrawable(AvatarUtil.getAvatar(holder.itemView.getContext()));
+
+        }
+
+        @Override
+        protected void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isSelected) {
+            holder.getViewById(R.id.id_checkbox).setVisibility(View.VISIBLE);
+            holder.getViewById(R.id.id_checkbox).setSelected(isSelected);
+        }
+
+        @Override
+        protected int getItemViewId() {
+            return R.layout.study_item;
+        }
+
+
+    }
+}

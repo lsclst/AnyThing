@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+>
+	<android.support.design.widget.AppBarLayout android:id="@id/AppBarLayout"
+	                                            android:layout_width="match_parent"
+	                                            android:layout_height="wrap_content"
+	>
+		<android.support.v7.widget.Toolbar
+			android:id="@id/ToolBar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			app:theme="@style/ToolBarTheme"
+		>
+			<com.lsc.anything.widget.SearchEditText
+				android:id="@+id/id_search_edt"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginRight="5dp"
+				android:background="@null"
+				android:gravity="center_vertical"
+				android:hint="@string/search"
+				android:imeOptions="actionSearch"
+				android:maxLines="1"
+				android:singleLine="true"
+				android:textColor="@android:color/white"
+				android:textColorHint="@color/light_white"
+				android:textCursorDrawable="@drawable/cursor"
+			/>
+		</android.support.v7.widget.Toolbar>
+	</android.support.design.widget.AppBarLayout>
+
+	<android.support.v4.widget.SwipeRefreshLayout android:id="@+id/id_search_swf"
+	                                              android:layout_width="match_parent"
+	                                              android:layout_height="match_parent"
+	                                              android:paddingTop="8dp"
+	                                              app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	>
+		<FrameLayout android:layout_width="match_parent"
+		             android:layout_height="match_parent">
+
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/id_search_result"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:visibility="gone"
+				app:layoutManager="LinearLayoutManager"
+			/>
+			<ListView
+				android:id="@+id/id_search_history"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:focusable="true"
+				android:focusableInTouchMode="true"
+				android:visibility="gone"
+			/>
+		</FrameLayout>
+
+	</android.support.v4.widget.SwipeRefreshLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

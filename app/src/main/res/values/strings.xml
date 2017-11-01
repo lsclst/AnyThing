@@ -1,0 +1,43 @@
+<resources>
+	<string name="app_name">AnyThing</string>
+	<string name="study">STUDY</string>
+	<string name="flower">FLOWER</string>
+	<string name="setting">SETTING</string>
+	<string name="bottom_nav_behavior">com.lsc.anything.widget.behavior.BottomNavViewBehavior
+	</string>
+	<string name="network_error">网络错误</string>
+	<string name="share">分享</string>
+	<string name="open_in_browser">浏览器打开</string>
+	<string name="share_title">一个有趣的东西</string>
+	<string name="fab_behavior">com.lsc.anything.widget.behavior.FabBehavior</string>
+	<string name="download">下载</string>
+	<string name="set_wallpaper">设置壁纸</string>
+	<string name="downloading">图片下载</string>
+	<string name="download_fail">下载失败…</string>
+	<string name="pic_is_existed">图片已存在</string>
+	<string name="download_finished">下载完成</string>
+	<string name="my_collection">收藏集</string>
+	<string name="about_me">关于我</string>
+	<string name="clear_cache">清除缓存</string>
+	<string name="search">搜索</string>
+	<string name="delete_search_history">清除搜索记录</string>
+	<string name="http_cache">网络缓存</string>
+	<string name="image_cache">图片缓存</string>
+	<string name="web_cache">浏览器缓存</string>
+	<string name="select_cache">选择需要清除的缓存</string>
+	<string name="delete">删除</string>
+	<string-array name="gank_type">
+		<item>Android</item>
+		<item>IOS</item>
+		<item>WEB</item>
+	</string-array>
+	<string-array name="search_category">
+		<item>all</item>
+		<item>Android</item>
+		<item>iOS</item>
+		<item>拓展资源</item>
+		<item>前端</item>
+		<item>瞎推荐</item>
+		<item>App</item>
+	</string-array>
+</resources>

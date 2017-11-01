@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context="com.lsc.anything.WebViewActivity">
+	<android.support.design.widget.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<include layout="@layout/tool_bar"/>
+	</android.support.design.widget.AppBarLayout>
+	<FrameLayout android:layout_width="match_parent"
+	             android:layout_height="match_parent"
+	             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		<WebView android:id="@+id/id_webview"
+		         android:layout_width="match_parent"
+		         android:layout_height="match_parent"/>
+		<ProgressBar
+			android:id="@+id/id_web_progress"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:visibility="gone"/>
+		<RelativeLayout android:id="@+id/error_view"
+		                android:layout_width="match_parent"
+		                android:layout_height="match_parent"
+		                android:visibility="gone"
+		>
+			<ImageView
+				android:id="@+id/web_error"
+				android:layout_width="100dp"
+				android:layout_height="100dp"
+				android:layout_above="@+id/error_tips"
+				android:layout_centerInParent="true"
+				android:src="@drawable/ic_network_error"/>
+			<TextView
+				android:id="@+id/error_tips"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:text="@string/network_error"
+			/>
+		</RelativeLayout>
+	</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.lsc.anything.MainActivity">
+
+	<android.support.design.widget.AppBarLayout
+		android:id="@id/AppBarLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<android.support.v7.widget.Toolbar
+			android:id="@id/ToolBar"
+			android:layout_width="match_parent"
+			android:layout_height="?actionBarSize"
+			app:layout_scrollFlags="scroll|enterAlways|snap"
+			app:theme="@style/ToolBarTheme"
+		/>
+
+	</android.support.design.widget.AppBarLayout>
+
+	<FrameLayout android:id="@+id/id_content"
+	             android:layout_width="match_parent"
+	             android:layout_height="match_parent"
+	             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	/>
+
+	<android.support.design.widget.BottomNavigationView
+		android:id="@+id/id_navigationView"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:layout_gravity="bottom"
+		android:background="@android:color/white"
+		app:elevation="16dp"
+		app:itemIconTint="@drawable/nav_item_selector"
+		app:itemTextColor="@drawable/nav_item_selector"
+		app:layout_behavior="@string/bottom_nav_behavior"
+		app:menu="@menu/nav_menu"
+	/>
+
+
+</android.support.design.widget.CoordinatorLayout>
