@@ -32,8 +32,28 @@ public class CollectionActivity extends ToolBarActivity {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(CollectionFragment.getInstance(CollectionFragment.TYPE_IMAGE));
         fragments.add(CollectionFragment.getInstance(CollectionFragment.TYPE_ARTICLE));
-        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), fragments);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE){
+                    for (Fragment f :
+                            adapter.getFragments()) {
+                        ((CollectionFragment)f).closeMultiChoice();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -64,6 +84,10 @@ public class CollectionActivity extends ToolBarActivity {
         public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
             mFragments = fragments;
+        }
+
+        public List<Fragment> getFragments() {
+            return mFragments;
         }
 
         @Override

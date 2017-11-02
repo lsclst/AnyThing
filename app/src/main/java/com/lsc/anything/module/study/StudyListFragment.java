@@ -151,7 +151,7 @@ public class StudyListFragment extends ListFragment<GankItem> implements StudyCo
         }
 
         @Override
-        protected void onDataViewBind(BaseViewHolder holder, int position) {
+        protected void onDataViewBind(BaseViewHolder holder, int position,boolean isPayLoad) {
             GankItem item = mData.get(position);
             ((TextView) holder.getViewById(R.id.id_study_title)).setText(item.getDesc());
             ((TextView) holder.getViewById(R.id.id_author)).setText(item.getWho());
@@ -160,7 +160,7 @@ public class StudyListFragment extends ListFragment<GankItem> implements StudyCo
         }
 
         @Override
-        protected void onFooterViewBind(BaseViewHolder holder, Object footer) {
+        protected void onFooterViewBind(BaseViewHolder holder, Object footer,boolean isPayLoad) {
             if (holder.getAdapterPosition() == 0) {
                 holder.itemView.setVisibility(View.GONE);
                 return;

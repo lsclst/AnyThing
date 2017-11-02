@@ -176,7 +176,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
         }
 
         @Override
-        protected void onDataViewBind(BaseViewHolder holder, final int position) {
+        protected void onDataViewBind(BaseViewHolder holder, final int position,boolean isPayLoad) {
             RadioImageView imgView = holder.getViewById(R.id.id_flower_img);
             final Size size = mSizes.get(position);
             if (size != null) {
@@ -214,7 +214,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
         }
 
         @Override
-        protected void onFooterViewBind(BaseViewHolder holder, Object footer) {
+        protected void onFooterViewBind(BaseViewHolder holder, Object footer,boolean isPayLoad) {
             if (holder.getAdapterPosition() == 0) {
                 holder.itemView.setVisibility(View.GONE);
                 return;

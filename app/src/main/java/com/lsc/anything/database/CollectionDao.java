@@ -65,6 +65,14 @@ public class CollectionDao {
         return deleteId;
     }
 
+    public void deleteCollections(Context c,List<Collection> collections){
+        try {
+            DataBaseHelper.getInstance(c).getCollectionsDao().delete(collections);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteAll(Context context) {
         DataBaseHelper.getInstance(context)
                 .getWritableDatabase()

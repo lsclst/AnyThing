@@ -3,7 +3,6 @@ package com.lsc.anything.widget.recylerview;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,11 +78,15 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Ba
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int i) {
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
         if (mViewTypes != null && mViewTypes.size() > 0) {
             for (ViewType type :
                     mViewTypes) {
-                if (type.isMatchType(i)) {
-                    type.onBindViewHolder(holder, i);
+                if (type.isMatchType(position)) {
+                    type.onBindViewHolder(holder, position,payloads.isEmpty());
                 }
             }
         }
@@ -118,7 +121,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Ba
 
         protected abstract int getItemType();
 
-        protected abstract void onBindViewHolder(BaseViewHolder holder, int position);
+        protected abstract void onBindViewHolder(BaseViewHolder holder, int position,boolean isPayLoad);
 
     }
 }

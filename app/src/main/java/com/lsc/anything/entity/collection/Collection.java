@@ -109,6 +109,16 @@ public class Collection {
         this.localPath = localPath;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (obj instanceof Collection) {
+            return this.id.equals(((Collection) obj).id);
+        }
+        return false;
+    }
+
     public GankItem toGankItem() {
         GankItem item = new GankItem();
         item.setDesc(des);

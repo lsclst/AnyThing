@@ -19,6 +19,7 @@ import java.util.List;
  */
 
 public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
+    private static final String TAG = MultiChoiceAdapter.class.getSimpleName();
     private boolean isMultiChoiceOpen;
     private ActionMode mActionMode;
     private ArrayMap<Integer, T> mChoices = new ArrayMap<>();
@@ -28,7 +29,7 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
     public interface OnMultiChoiceListener {
         boolean onMultiChoiceActionModeClick(ActionMode actionMode, @IdRes int clickId);
 
-        void onMultiItemClick();
+        void onMultiItemClick(ActionMode actionMode);
 
         void onMultiChoiceActionModeClose();
     }
@@ -48,11 +49,11 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
 
 
     @Override
-    protected void onDataViewBind(BaseViewHolder holder, int position) {
-        if (isMultiChoiceOpen) {
-            onMultiChoiceViewBind(holder, position, mChoices.containsKey(position));
-        }
+    protected void onDataViewBind(BaseViewHolder holder, int position, boolean isPayLoad) {
+        onMultiChoiceViewBind(holder, position, isPayLoad, isMultiChoiceOpen);
     }
+
+    protected abstract void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isPayLoad, boolean isMultiChoiceOpen);
 
     public void finishedActionMode() {
         if (mActionMode != null && isMultiChoiceOpen) {
@@ -60,7 +61,7 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
             isMultiChoiceOpen = false;
             mChoices.clear();
             mActionMode = null;
-            notifyDataSetChanged();
+            notifyItemRangeChanged(getHeaderCount(), getItemCount() - getFooterCount(), "yes");
         }
     }
 
@@ -89,7 +90,9 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
         finishedActionMode();
     }
 
-    protected abstract void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isSelected);
+    public boolean isItemCheck(int position) {
+        return mChoices.containsKey(position);
+    }
 
     @Override
     public void onLongClick(BaseViewHolder holder, int position) {
@@ -97,10 +100,10 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
             //TODO open multichoice
             mActionMode = holder.itemView.startActionMode(mCallback);
             isMultiChoiceOpen = true;
-            notifyDataSetChanged();
+            notifyItemRangeChanged(getHeaderCount(), getItemCount() - getFooterCount(), "yes");
         } else if (isMultiChoiceOpen && DATA_TYPE == getItemViewType(position)) {
             finishedActionMode();
-            notifyDataSetChanged();
+            notifyItemRangeChanged(getHeaderCount(), getItemCount() - getFooterCount(), "yes");
         } else {
             super.onLongClick(holder, position);
         }
@@ -114,12 +117,13 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
             } else {
                 mChoices.put(position, getData().get(position));
             }
-            mOnMultiChoiceListener.onMultiItemClick();
-            notifyItemChanged(position);
+            mOnMultiChoiceListener.onMultiItemClick(mActionMode);
+            notifyItemChanged(position, "yes");
         } else {
             super.onClick(holder, position);
         }
     }
+
 
     private static class MultiChoiceActionModeCallBack implements ActionMode.Callback {
 

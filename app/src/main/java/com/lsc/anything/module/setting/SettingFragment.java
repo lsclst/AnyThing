@@ -62,7 +62,6 @@ public class SettingFragment extends LazyLoadFragment {
 
     @OnClick(R.id.ll_collection)
     public void onCollectionClick(View v) {
-        //todo collection
         startActivity(new Intent(getContext(), CollectionActivity.class));
     }
 

@@ -2,8 +2,7 @@ package com.lsc.anything.module.collection;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +21,7 @@ import com.lsc.anything.entity.gank.GankItem;
 import com.lsc.anything.module.flower.FlowerDetailActivity;
 import com.lsc.anything.utils.AvatarUtil;
 import com.lsc.anything.utils.DateUtil;
+import com.lsc.anything.utils.ToastUtil;
 import com.lsc.anything.widget.recylerview.BaseViewHolder;
 import com.lsc.anything.widget.recylerview.HeaderAndFooterAdapter;
 import com.lsc.anything.widget.recylerview.MultiChoiceAdapter;
@@ -51,6 +51,12 @@ public class CollectionFragment extends ListFragment<Collection> {
         bundle.putInt(KEY_TYPE, type);
         c.setArguments(bundle);
         return c;
+    }
+
+    public void closeMultiChoice() {
+        if (mAdapter != null) {
+            mAdapter.finishedActionMode();
+        }
     }
 
     @Override
@@ -90,11 +96,14 @@ public class CollectionFragment extends ListFragment<Collection> {
             public boolean onMultiChoiceActionModeClick(ActionMode actionMode, int clickId) {
                 switch (clickId) {
                     case R.id.id_menu_delete_all:
-
                         mAdapter.clearData();
+                        mCollectionDao.deleteAll(getContext());
+                        ToastUtil.showSuccessMsg(getString(R.string.delete_success));
                         break;
                     case R.id.id_menu_delete:
+                        mCollectionDao.deleteCollections(getContext(), mAdapter.getSelectedItems());
                         mAdapter.deleteSelectedItems();
+                        ToastUtil.showSuccessMsg(getString(R.string.delete_success));
                         break;
                     default:
                         actionMode.finish();
@@ -104,17 +113,14 @@ public class CollectionFragment extends ListFragment<Collection> {
             }
 
             @Override
-            public void onMultiItemClick() {
-                ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-                if (supportActionBar != null) {
-                    List selectedItems = mAdapter.getSelectedItems();
-                    supportActionBar.setTitle(String.format("已选择(%s)", selectedItems != null ? selectedItems.size() : 0));
-                }
+            public void onMultiItemClick(ActionMode actionMode) {
+                List<Collection> selectedItems = mAdapter.getSelectedItems();
+                actionMode.setTitle(String.format("已选择(%s)", selectedItems != null ? selectedItems.size() : 0));
             }
 
             @Override
             public void onMultiChoiceActionModeClose() {
-                
+
                 mAdapter.finishedActionMode();
             }
         };
@@ -164,22 +170,26 @@ public class CollectionFragment extends ListFragment<Collection> {
         }
 
         @Override
-        protected void onDataViewBind(BaseViewHolder holder, int position) {
-            super.onDataViewBind(holder, position);
+        protected void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isPayLoad, boolean isMultiChoiceOpen) {
+            AppCompatCheckBox checkBox = holder.getViewById(R.id.id_checkbox);
             Collection collection = getData().get(position);
             File file = new File(collection.getLocalPath());
-            ImageView targetView = holder.getViewById(R.id.id_flower_img);
-            if (file.exists()) {
-                Glide.with(holder.itemView.getContext()).load(file).into(targetView);
+            if (isMultiChoiceOpen) {
+                checkBox.setVisibility(View.VISIBLE);
             } else {
-                Glide.with(holder.itemView.getContext()).load(collection.getUrl()).into(targetView);
+                checkBox.setVisibility(View.GONE);
             }
-        }
+            if (!isPayLoad) {
+                checkBox.setChecked(isItemCheck(position));
+            } else {
+                ImageView targetView = holder.getViewById(R.id.id_flower_img);
+                if (file.exists()) {
+                    Glide.with(holder.itemView.getContext()).load(file).into(targetView);
+                } else {
+                    Glide.with(holder.itemView.getContext()).load(collection.getUrl()).into(targetView);
+                }
+            }
 
-        @Override
-        protected void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isSelected) {
-            holder.getViewById(R.id.id_checkbox).setVisibility(View.VISIBLE);
-            holder.getViewById(R.id.id_checkbox).setSelected(isSelected);
         }
 
         @Override
@@ -201,20 +211,22 @@ public class CollectionFragment extends ListFragment<Collection> {
         }
 
         @Override
-        protected void onDataViewBind(BaseViewHolder holder, int position) {
-            super.onDataViewBind(holder, position);
+        protected void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isPayLoad, boolean isMultiChoiceOpen) {
+            AppCompatCheckBox checkBox = holder.getViewById(R.id.id_checkbox);
             Collection item = getData().get(position);
-            ((TextView) holder.getViewById(R.id.id_study_title)).setText(item.getDes());
-            ((TextView) holder.getViewById(R.id.id_author)).setText(item.getWho());
-            ((TextView) holder.getViewById(R.id.id_publish_at)).setText(DateUtil.getINSTANCE().formatDate(item.getCollectionDate()));
-            ((ImageView) holder.getViewById(R.id.id_avatar)).setImageDrawable(AvatarUtil.getAvatar(holder.itemView.getContext()));
-
-        }
-
-        @Override
-        protected void onMultiChoiceViewBind(BaseViewHolder holder, int position, boolean isSelected) {
-            holder.getViewById(R.id.id_checkbox).setVisibility(View.VISIBLE);
-            holder.getViewById(R.id.id_checkbox).setSelected(isSelected);
+            if (isMultiChoiceOpen) {
+                checkBox.setVisibility(View.VISIBLE);
+            } else {
+                checkBox.setVisibility(View.GONE);
+            }
+            if (!isPayLoad) {
+                checkBox.setChecked(isItemCheck(position));
+            } else {
+                ((TextView) holder.getViewById(R.id.id_study_title)).setText(item.getDes());
+                ((TextView) holder.getViewById(R.id.id_author)).setText(item.getWho());
+                ((TextView) holder.getViewById(R.id.id_publish_at)).setText(DateUtil.getINSTANCE().formatDate(item.getCollectionDate()));
+                ((ImageView) holder.getViewById(R.id.id_avatar)).setImageDrawable(AvatarUtil.getAvatar(holder.itemView.getContext()));
+            }
         }
 
         @Override

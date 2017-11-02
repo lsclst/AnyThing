@@ -58,11 +58,11 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
         notifyItemInserted(position);
     }
 
-    private int getHeaderCount() {
+    public int getHeaderCount() {
         return mHeaderViewId != 0 && mHeader != null ? 1 : 0;
     }
 
-    private int getFooterCount() {
+    public int getFooterCount() {
         return mFooterViewId != 0 && mFooter != null ? 1 : 0;
     }
 
@@ -206,13 +206,13 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
 
     protected abstract int getItemViewId();
 
-    protected abstract void onDataViewBind(BaseViewHolder holder, int position);
+    protected abstract void onDataViewBind(BaseViewHolder holder, int position,boolean isPayLoad);
 
-    protected void onHeaderViewBind(BaseViewHolder holder, Object header) {
+    protected void onHeaderViewBind(BaseViewHolder holder, Object header,boolean isPayLoad) {
     }
 
 
-    protected void onFooterViewBind(BaseViewHolder holder, Object footer) {
+    protected void onFooterViewBind(BaseViewHolder holder, Object footer,boolean isPayLoad) {
     }
 
     @Override
@@ -253,8 +253,8 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
         }
 
         @Override
-        protected void onBindViewHolder(BaseViewHolder holder, int position) {
-            adapter.onHeaderViewBind(holder, adapter.getHeader());
+        protected void onBindViewHolder(BaseViewHolder holder, int position,boolean isPayLoad) {
+            adapter.onHeaderViewBind(holder, adapter.getHeader(),isPayLoad);
         }
 
     }
@@ -283,8 +283,8 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
 
 
         @Override
-        protected void onBindViewHolder(BaseViewHolder holder, int position) {
-            adapter.onFooterViewBind(holder, adapter.getFooter());
+        protected void onBindViewHolder(BaseViewHolder holder, int position,boolean isPayLoad) {
+            adapter.onFooterViewBind(holder, adapter.getFooter(),isPayLoad);
         }
 
     }
@@ -312,11 +312,11 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
         }
 
         @Override
-        protected void onBindViewHolder(BaseViewHolder holder, int position) {
+        protected void onBindViewHolder(BaseViewHolder holder, int position,boolean isPayLoad) {
             if (adapter.getHeader() != null) {
                 position -= 1;
             }
-            adapter.onDataViewBind(holder, position);
+            adapter.onDataViewBind(holder, position,isPayLoad);
         }
 
     }
