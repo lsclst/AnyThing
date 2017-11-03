@@ -47,7 +47,6 @@ public class ClearCacheDialog extends DialogFragment {
     TextView mWebCacheSize;
     private Unbinder mUnbinder;
     private ClearCallBack mClearCallBack;
-    private long retainSize;
 
     public interface ClearCallBack {
         void onClearCache();
@@ -72,7 +71,6 @@ public class ClearCacheDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_clear_cache, container, false);
-        Log.e("lsc", "onCreateView: ");
         mUnbinder = ButterKnife.bind(this, view);
         getDialog().setTitle(R.string.select_cache);
         mHttpCacheSize.setText(getArguments().getString(FileUtil.KEY_HTTP));

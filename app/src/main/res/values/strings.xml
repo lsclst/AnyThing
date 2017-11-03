@@ -5,11 +5,11 @@
 	<string name="setting">SETTING</string>
 	<string name="bottom_nav_behavior">com.lsc.anything.widget.behavior.BottomNavViewBehavior
 	</string>
+	<string name="fab_behavior">com.lsc.anything.widget.behavior.FabBehavior</string>
 	<string name="network_error">网络错误</string>
 	<string name="share">分享</string>
 	<string name="open_in_browser">浏览器打开</string>
 	<string name="share_title">一个有趣的东西</string>
-	<string name="fab_behavior">com.lsc.anything.widget.behavior.FabBehavior</string>
 	<string name="download">下载</string>
 	<string name="set_wallpaper">设置壁纸</string>
 	<string name="downloading">图片下载</string>
@@ -27,6 +27,24 @@
 	<string name="select_cache">选择需要清除的缓存</string>
 	<string name="delete">删除</string>
 	<string name="delete_success">删除成功</string>
+	<string name="about">关于</string>
+	<string name="app_version">版本:v1.0.0</string>
+	<string name="app_what">这是什么</string>
+	<string name="app_desc">这是一个提供开发技术的app,里面包括Android,Ios,前端,甚至还有妹子^_^ ^_^</string>
+	<string name="my_name">吕小白</string>
+	<string name="my_adress">广东，广州，广东工业大学</string>
+	<string name="follow_me">关注我</string>
+	<string name="github_dress">https://www.github.com/lsclst</string>
+	<string name="feedback">Bug反馈/建议意见</string>
+	<string name="feedback_desc">如果你碰到bug或者有好的建议意见欢迎和我联系 \n 邮箱:873221631@qq.com</string>
+	<string name="donation">打赏</string>
+	<string name="donation_desc">如果你觉得有意思或者对你有用，请我喝杯茶吧！各位大爷行行好吧^_^ ^_^</string>
+	<string name="gank">gank.io</string>
+	<string name="gank_desc">感谢gank.io提供的数据，感谢大名鼎鼎的代码家！^_^ ^_^ \n http://gank.io</string>
+	<string name="sendto">mailto:873221631@qq.com</string>
+	<string name="feedback_tip">tip:AnyThing 的反馈</string>
+	<string name="device_model">设备类型</string>
+	<string name="sdk_version">sdk版本</string>
 	<string-array name="gank_type">
 		<item>Android</item>
 		<item>IOS</item>

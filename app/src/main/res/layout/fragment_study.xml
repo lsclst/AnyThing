@@ -9,11 +9,12 @@
 
 	<android.support.design.widget.TabLayout
 		android:id="@+id/id_tabBar"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:background="@android:color/white"
 		app:tabIndicatorColor="@color/colorAccent"
 		app:tabMode="fixed"
+		android:layout_gravity="center_horizontal"
 		app:tabSelectedTextColor="@color/colorAccent"
 		app:tabTextColor="@color/Blue_Grey"
 	/>

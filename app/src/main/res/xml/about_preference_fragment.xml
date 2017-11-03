@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<android.support.v7.preference.PreferenceCategory
+		android:title="@string/app_name">
+
+		<android.support.v7.preference.Preference
+			android:title="@string/app_version"/>
+		<android.support.v7.preference.Preference
+			android:summary="@string/app_desc"
+			android:title="@string/app_what"/>
+
+	</android.support.v7.preference.PreferenceCategory>
+	<android.support.v7.preference.PreferenceCategory
+		android:title="@string/about_me">
+		<android.support.v7.preference.Preference
+			android:summary="@string/my_adress"
+			android:title="@string/my_name"
+		/>
+		<android.support.v7.preference.Preference
+			android:key="follow_me"
+			android:summary="@string/github_dress"
+			android:title="@string/follow_me"/>
+
+	</android.support.v7.preference.PreferenceCategory>
+
+	<android.support.v7.preference.PreferenceCategory
+		android:title="支持">
+
+		<android.support.v7.preference.Preference
+			android:key="feedback"
+			android:summary="@string/feedback_desc"
+			android:title="@string/feedback"/>
+		<android.support.v7.preference.Preference
+			android:key="donation"
+			android:summary="@string/donation_desc"
+			android:title="@string/donation"/>
+
+	</android.support.v7.preference.PreferenceCategory>
+
+	<android.support.v7.preference.PreferenceCategory
+		android:title="致谢">
+
+		<Preference
+			android:summary="@string/gank_desc"
+			android:title="@string/gank"/>
+
+	</android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

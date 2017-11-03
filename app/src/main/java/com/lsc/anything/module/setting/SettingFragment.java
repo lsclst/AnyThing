@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.lsc.anything.BuildConfig;
 import com.lsc.anything.R;
 import com.lsc.anything.base.LazyLoadFragment;
+import com.lsc.anything.module.about.AboutActivity;
 import com.lsc.anything.module.collection.CollectionActivity;
 import com.lsc.anything.utils.FileUtil;
 import com.lsc.anything.widget.dialog.ClearCacheDialog;
@@ -39,13 +39,12 @@ public class SettingFragment extends LazyLoadFragment {
     public static final String TAG = SettingFragment.class.getSimpleName();
     @BindView(R.id.id_cacheSize)
     TextView mTvCacheSize;
-    @BindView(R.id.tv_version)
-    TextView mTvVersion;
 
 
     @OnClick(R.id.ll_about_me)
     public void onAboutMeClick(View v) {
         //todo me
+        AboutActivity.start(getContext());
     }
 
 
@@ -112,6 +111,6 @@ public class SettingFragment extends LazyLoadFragment {
                         mTvCacheSize.setText(FileUtil.formatSize(size));
                     }
                 });
-        mTvVersion.setText("版本: " + BuildConfig.VERSION_NAME);
+
     }
 }

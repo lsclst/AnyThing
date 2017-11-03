@@ -29,6 +29,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibsVersion"
     compile "com.android.support:design:$rootProject.supportLibsVersion"
     compile "com.android.support:cardview-v7:$rootProject.supportLibsVersion"
+    compile "com.android.support:preference-v14:$rootProject.supportLibsVersion"
     //RXJava & RXAndroid
     //Retrofit 2.X
     compile "com.squareup.retrofit2:retrofit:$rootProject.RetrofitVersion"

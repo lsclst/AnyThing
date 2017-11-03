@@ -33,6 +33,7 @@
 		<activity android:name=".module.flower.FlowerDetailActivity"/>
 		<activity android:name=".module.search.SearchActivity"/>
 		<activity android:name=".module.collection.CollectionActivity"/>
+		<activity android:name=".module.about.AboutActivity" android:theme="@style/AppTheme"/>
 		<receiver android:name=".utils.DownLoadReceiver">
 			<intent-filter android:priority="1000">
 				<action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
