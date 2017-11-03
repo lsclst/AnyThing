@@ -11,9 +11,8 @@
 		android:id="@id/ToolBar"
 		android:layout_width="match_parent"
 		android:layout_height="?actionBarSize"
-		android:background="@color/colorPrimary"
 		app:layout_scrollFlags="scroll"
-		app:theme="@style/ToolBarTheme"
+		style="@style/ToolBarTheme"
 		app:titleTextAppearance="@style/ToolBarTitle"/>
 
 </android.support.design.widget.AppBarLayout>

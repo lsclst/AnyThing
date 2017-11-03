@@ -16,21 +16,22 @@
 		<item name="android:windowIsTranslucent">true</item>
 		<item name="android:windowBackground">@android:color/transparent</item>
 	</style>
-	<style name="ToolBarTheme" parent="Base.Widget.AppCompat.Light.ActionBar">
-		<item name="android:background">@color/colorPrimary</item>
+	<style name="ToolBarTheme">
+		<item name="android:background">@drawable/main_gradient_bg</item>
 		<item name="android:id">@id/ToolBar</item>
 		<item name="android:contentInsetStart">0dp</item>
-		<item name="contentInsetStart">0dp</item>
 		<item name="android:contentInsetEnd">0dp</item>
 		<item name="contentInsetEnd">0dp</item>
 		<item name="android:textColorPrimary">@android:color/white</item>
+		<item name="colorControlNormal">@android:color/white</item>
 		<item name="android:colorControlNormal">@android:color/white</item>
 		<item name="titleMarginStart">3dp</item>
-		<item name="titleTextStyle">@style/ToolBarTitle</item>
+		<item name="titleTextAppearance">@style/ToolBarTitle</item>
 
 	</style>
 	<style name="ToolBarTitle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
 		<item name="android:textSize">16sp</item>
+		<item name="android:textColor">@android:color/white</item>
 	</style>
 	<style name="Title_TextView" parent="TextAppearance.AppCompat.Title">
 		<item name="android:textColor">@android:color/darker_gray</item>

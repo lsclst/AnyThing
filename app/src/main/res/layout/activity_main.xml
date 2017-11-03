@@ -15,7 +15,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="?actionBarSize"
 			app:layout_scrollFlags="scroll|enterAlways|snap"
-			app:theme="@style/ToolBarTheme"
+			style="@style/ToolBarTheme"
 		/>
 
 	</android.support.design.widget.AppBarLayout>

@@ -14,7 +14,7 @@
 			android:id="@id/ToolBar"
 			android:layout_width="match_parent"
 			android:layout_height="?attr/actionBarSize"
-			app:theme="@style/ToolBarTheme"
+			style="@style/ToolBarTheme"
 		>
 			<com.lsc.anything.widget.SearchEditText
 				android:id="@+id/id_search_edt"
