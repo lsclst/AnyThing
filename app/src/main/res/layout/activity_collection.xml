@@ -6,9 +6,11 @@
 	<android.support.design.widget.AppBarLayout android:id="@id/AppBarLayout"
 	                                            android:layout_width="match_parent"
 	                                            android:layout_height="wrap_content"
+	                                            android:background="@drawable/main_gradient_bg"
 	>
 		<android.support.v7.widget.Toolbar android:id="@id/ToolBar"
 		                                   style="@style/ToolBarTheme"
+		                                   android:background="@null"
 		                                   android:layout_width="match_parent"
 		                                   android:layout_height="?attr/actionBarSize"
 		/>
