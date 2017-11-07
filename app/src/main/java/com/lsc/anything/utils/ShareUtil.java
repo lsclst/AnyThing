@@ -26,8 +26,8 @@ public class ShareUtil {
         i.putExtra(Intent.EXTRA_STREAM, uri);
         i.setType("image/*");
         i.addCategory(Intent.CATEGORY_DEFAULT);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Intent share = Intent.createChooser(i, context.getString(R.string.share_title));
+        share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(share);
     }
 }
