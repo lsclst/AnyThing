@@ -121,7 +121,6 @@ public abstract class MultiChoiceAdapter<T> extends HeaderAndFooterAdapter<T> {
             if (mChoices.containsKey(position)) {
                 mChoices.remove(position);
             } else {
-                Log.e(TAG, "onClick: "+position );
                 mChoices.put(position, getData().get(position));
             }
             mOnMultiChoiceListener.onMultiItemClick(mActionMode);
