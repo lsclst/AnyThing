@@ -13,8 +13,8 @@
 		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 	</style>
 	<style name="SplashTheme" parent="AppTheme">
-		<item name="android:windowIsTranslucent">true</item>
-		<item name="android:windowBackground">@android:color/transparent</item>
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowBackground">@drawable/splash_bg</item>
 	</style>
 	<style name="ToolBarTheme">
 		<item name="android:background">@drawable/main_gradient_bg</item>
