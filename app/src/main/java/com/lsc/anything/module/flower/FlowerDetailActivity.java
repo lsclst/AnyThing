@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,14 +24,12 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.lsc.anything.R;
 import com.lsc.anything.base.ToolBarActivity;
 import com.lsc.anything.database.CollectionDao;
-import com.lsc.anything.entity.collection.Collection;
 import com.lsc.anything.entity.gank.GankItem;
 import com.lsc.anything.utils.DownLoadUtil;
 import com.lsc.anything.widget.HackViewPager;
 import com.lsc.anything.widget.viewpagertransfomer.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,13 +85,8 @@ public class FlowerDetailActivity extends ToolBarActivity {
                     mLikeButton.getDrawable().clearColorFilter();
                     mChangeItems.put(pos, false);
                 } else {
-                    Collection c = new Collection();
-                    c.setLocalPath(DownLoadUtil.IMAGE_FOLDER + gankItem.getFileName());
-                    c.setCollectionDate(new Date().toString());
-                    c.setType(Collection.TYPE_IMG);
-                    c.setUrl(gankItem.getUrl());
-                    c.setId(gankItem.get_id());
-                    mCollectionDao.save(FlowerDetailActivity.this, c);
+                    gankItem.setSaveType(GankItem.TYPE_IMG);
+                    mCollectionDao.save(FlowerDetailActivity.this, gankItem);
                     mChangeItems.put(pos, true);
                     gankItem.setLike(true);
                     mGankItems.set(mViewPager.getCurrentItem(), gankItem);
@@ -121,11 +113,10 @@ public class FlowerDetailActivity extends ToolBarActivity {
         mGankItems = getIntent().getParcelableArrayListExtra(KEY_DATA);
         for (int i = 0; i < mGankItems.size(); i++) {
             GankItem item = mGankItems.get(i);
-            Collection collectionById = mCollectionDao.getCollectionById(this, item.get_id());
+            GankItem collectionById = mCollectionDao.getCollectionById(this, item.get_id());
             if (collectionById != null) {
                 item.setLike(true);
                 mGankItems.set(i, item);
-                Log.e(TAG, "initData: " + item.get_id());
             }
         }
         int pos = getIntent().getIntExtra(KEY_POS, 0);
@@ -154,7 +145,6 @@ public class FlowerDetailActivity extends ToolBarActivity {
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
                     GankItem item = mGankItems.get(position);
-                    Log.e(TAG, "onPageSelected: " + item.isLike());
                     if (item.isLike()) {
                         mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
                                 R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
@@ -194,6 +184,8 @@ public class FlowerDetailActivity extends ToolBarActivity {
         GankItem gankItem = mGankItems.get(mViewPager.getCurrentItem());
         switch (item.getItemId()) {
             case R.id.id_menu_download:
+                gankItem.setLocalPath(DownLoadUtil.IMAGE_FOLDER+gankItem.getFileName());
+                mCollectionDao.save(this,gankItem);
                 DownLoadUtil.getInstance().downloadPic(this, gankItem.getUrl(), gankItem.getFileName());
                 break;
             case R.id.id_menu_set_wallpaper:

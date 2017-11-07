@@ -183,7 +183,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
                 imgView.setOriginalSize(size.getImgWidth(), size.getImgHeight());
             }
             Glide.with(mContext).load(mData.get(position).getUrl())
-                    .asBitmap().override(540, 540).placeholder(R.drawable.ic_placeholder_img).into(new BitmapImageViewTarget(imgView) {
+                    .asBitmap().override(540, 540).placeholder(R.drawable.ic_image_holder).into(new BitmapImageViewTarget(imgView) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     super.onResourceReady(resource, glideAnimation);

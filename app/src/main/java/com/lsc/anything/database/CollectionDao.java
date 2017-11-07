@@ -2,7 +2,7 @@ package com.lsc.anything.database;
 
 import android.content.Context;
 
-import com.lsc.anything.entity.collection.Collection;
+import com.lsc.anything.entity.gank.GankItem;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public class CollectionDao {
-    public void save(Context context, Collection collection) {
+    public void save(Context context, GankItem collection) {
         try {
             DataBaseHelper.getInstance(context.getApplicationContext()).getCollectionsDao()
                     .createOrUpdate(collection);
@@ -23,8 +23,8 @@ public class CollectionDao {
         }
     }
 
-    public Collection getCollectionById(Context c, String id) {
-        Collection collection = null;
+    public GankItem getCollectionById(Context c, String id) {
+        GankItem collection = null;
         try {
             collection = DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao()
                     .queryForId(id);
@@ -34,20 +34,20 @@ public class CollectionDao {
         return collection;
     }
 
-    public List<Collection> getAllArticle(Context c) {
+    public List<GankItem> getAllArticle(Context c) {
         try {
             return DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao()
-                    .queryForEq(Collection.COL_DATATYPE, Collection.TYPE_ARTICLE);
+                    .queryForEq(GankItem.COL_DATATYPE, GankItem.TYPE_ARTICLE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<Collection> getAllImage(Context c) {
+    public List<GankItem> getAllImage(Context c) {
         try {
             return DataBaseHelper.getInstance(c).getCollectionsDao()
-                    .queryForEq(Collection.COL_DATATYPE, Collection.TYPE_IMG);
+                    .queryForEq(GankItem.COL_DATATYPE, GankItem.TYPE_IMG);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class CollectionDao {
         return deleteId;
     }
 
-    public void deleteCollections(Context c,List<Collection> collections){
+    public void deleteCollections(Context c,List<GankItem> collections){
         try {
             DataBaseHelper.getInstance(c).getCollectionsDao().delete(collections);
         } catch (SQLException e) {
@@ -76,6 +76,6 @@ public class CollectionDao {
     public void deleteAll(Context context) {
         DataBaseHelper.getInstance(context)
                 .getWritableDatabase()
-                .delete(Collection.TABLE_NAME, null, null);
+                .delete(GankItem.TABLE_NAME, null, null);
     }
 }

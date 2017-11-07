@@ -49,4 +49,12 @@
 		<item name="android:layout_marginLeft">16dp</item>
 		<item name="android:gravity">center_vertical</item>
 	</style>
+
+	<style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+		<item name="android:elevation">5dp</item>
+		<item name="tabIndicatorColor">@android:color/white</item>
+		<item name="tabMode">fixed</item>
+		<item name="tabSelectedTextColor">@android:color/white</item>
+		<item name="tabTextColor">@color/light_white</item>
+	</style>
 </resources>

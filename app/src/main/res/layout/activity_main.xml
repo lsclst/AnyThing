@@ -9,13 +9,15 @@
 	<android.support.design.widget.AppBarLayout
 		android:id="@id/AppBarLayout"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		app:elevation="0dp">
 		<android.support.v7.widget.Toolbar
 			android:id="@id/ToolBar"
+			style="@style/ToolBarTheme"
 			android:layout_width="match_parent"
 			android:layout_height="?actionBarSize"
+			app:elevation="0dp"
 			app:layout_scrollFlags="scroll|enterAlways|snap"
-			style="@style/ToolBarTheme"
 		/>
 
 	</android.support.design.widget.AppBarLayout>

@@ -6,7 +6,7 @@
 	<color name="Blue_Grey">#607d8b</color>
 	<color name="light_orange">#FF5722</color>
 	<color name="alert_red">#ff3122</color>
-	<color name="light_white">#c7aeadad</color>
+	<color name="light_white">#b9ffffff</color>
 	<color name="mainGradientEndColor">#00c6fb</color>
 	<color name="mainGradientStartColor">#005bea</color>
 </resources>

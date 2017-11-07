@@ -7,8 +7,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.lsc.anything.entity.collection.Collection;
 import com.lsc.anything.entity.gank.DownLoadEntity;
+import com.lsc.anything.entity.gank.GankItem;
 
 import java.sql.SQLException;
 
@@ -30,7 +30,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, DownLoadEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, Collection.class);
+            TableUtils.createTableIfNotExists(connectionSource, GankItem.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,11 +70,11 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
         return mDownLoadDao;
     }
 
-    private static Dao<Collection, String> mCollectionsDao;
+    private static Dao<GankItem, String> mCollectionsDao;
 
-    public Dao<Collection, String> getCollectionsDao() throws SQLException {
+    public Dao<GankItem, String> getCollectionsDao() throws SQLException {
         if (mCollectionsDao == null) {
-            mCollectionsDao = getDao(Collection.class);
+            mCollectionsDao = getDao(GankItem.class);
         }
         return mCollectionsDao;
     }

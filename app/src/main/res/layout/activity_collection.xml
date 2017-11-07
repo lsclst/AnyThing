@@ -10,17 +10,15 @@
 	>
 		<android.support.v7.widget.Toolbar android:id="@id/ToolBar"
 		                                   style="@style/ToolBarTheme"
-		                                   android:background="@null"
 		                                   android:layout_width="match_parent"
 		                                   android:layout_height="?attr/actionBarSize"
+		                                   android:background="@null"
 		/>
-		<android.support.design.widget.TabLayout android:layout_width="match_parent"
+		<android.support.design.widget.TabLayout android:id="@+id/id_tabLayout"
+		                                         style="@style/TabLayoutStyle"
+		                                         android:layout_width="match_parent"
 		                                         android:layout_height="wrap_content"
-		                                         android:id="@+id/id_tabLayout"
-		                                         app:tabIndicatorColor="@color/colorAccent"
-		                                         app:tabMode="fixed"
-		                                         app:tabSelectedTextColor="@color/colorAccent"
-		                                         app:tabTextColor="@android:color/white"/>
+		/>
 	</android.support.design.widget.AppBarLayout>
 	<android.support.v4.view.ViewPager android:id="@+id/id_viewpager"
 	                                   android:layout_width="match_parent"

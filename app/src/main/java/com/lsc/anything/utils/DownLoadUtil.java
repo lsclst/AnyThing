@@ -65,6 +65,10 @@ public class DownLoadUtil {
     }
 
     private void downLoad(Context context, String uri, String fileName, @PIC_OP_TYPE int type) {
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+            ToastUtil.showErrorMsg("外部存储未挂载");
+            return;
+        }
         DownLoadDao dao = new DownLoadDao();
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(uri));
