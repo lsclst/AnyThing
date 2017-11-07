@@ -51,7 +51,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Activity.RESULT_FIRST_USER && resultCode == Activity.RESULT_OK) {
-
+            Log.e(TAG, "onActivityResult: " );
             List<GankItem> gankItems = mFlowerAdapter.getData();
             HashMap<Integer, Boolean> result = (HashMap) data.getSerializableExtra(KEY_RESULT);
             Set<Map.Entry<Integer, Boolean>> entries = result.entrySet();

@@ -169,7 +169,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
     public void onBackPressed() {
         Intent i = new Intent();
         i.putExtra(FlowerFragment.KEY_RESULT, mChangeItems);
-        setResult(RESULT_FIRST_USER, i);
+        setResult(RESULT_OK, i);
         finish();
     }
 
