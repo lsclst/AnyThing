@@ -141,7 +141,7 @@ public class CollectionFragment extends ListFragment<Collection> {
                                 mAdapter.getData()) {
                             items.add(c.toGankItem());
                         }
-                        FlowerDetailActivity.startForResult(CollectionFragment.this, items, position);
+                        FlowerDetailActivity.startForResult(CollectionFragment.this, items, position,false);
                     }
                 }
             }

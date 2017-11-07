@@ -45,6 +45,7 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
     compile 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
+    compile 'hanks.xyz:smallbang-library:0.1.2'
     compile files('libs/ormlite-android-5.0.jar')
     testCompile 'junit:junit:4.12'
 }

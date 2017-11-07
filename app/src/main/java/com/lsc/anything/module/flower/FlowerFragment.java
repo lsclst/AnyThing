@@ -155,7 +155,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
 
     @Override
     public void showDetail(List<GankItem> gankItems, int position) {
-        FlowerDetailActivity.startForResult(this, (ArrayList<GankItem>) gankItems, position);
+        FlowerDetailActivity.startForResult(this, (ArrayList<GankItem>) gankItems, position,true);
     }
 
     private static class FlowerAdapter extends HeaderAndFooterAdapter<GankItem> {

@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,13 +38,18 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import xyz.hanks.library.SmallBang;
+import xyz.hanks.library.SmallBangListener;
 
 public class FlowerDetailActivity extends ToolBarActivity {
     private static final String KEY_DATA = "data";
     private static final String KEY_POS = "pos";
+    private static final String KEY_ACTION = "action";
+
+
     private static final String TAG = FlowerDetailActivity.class.getSimpleName();
     @BindView(R.id.id_fab)
-    FloatingActionButton mLikeButton;
+    ImageView mLikeButton;
     @BindView(R.id.id_viewpager)
     HackViewPager mViewPager;
 
@@ -52,43 +57,56 @@ public class FlowerDetailActivity extends ToolBarActivity {
     private DetailAdapter mAdapter;
     private CollectionDao mCollectionDao;
     private HashMap<Integer, Boolean> mChangeItems;
+    private SmallBang mSmallBang;
+    private boolean mIsneedEdit;
 
     @Override
     protected void setUpToolBar(Toolbar toolBar) {
         toolBar.setTitle("Flower");
     }
 
-    public static void startForResult(Fragment fragment, ArrayList<GankItem> datas, int pos) {
+    public static void startForResult(Fragment fragment, ArrayList<GankItem> datas, int pos, boolean needEdit) {
         Intent i = new Intent(fragment.getContext(), FlowerDetailActivity.class);
         i.putParcelableArrayListExtra(KEY_DATA, datas);
         i.putExtra(KEY_POS, pos);
+        i.putExtra(KEY_ACTION, needEdit);
         fragment.startActivityForResult(i, Activity.RESULT_FIRST_USER);
     }
 
 
     @OnClick(R.id.id_fab)
     public void onFabClick(View v) {
-        int pos = mViewPager.getCurrentItem();
-        GankItem gankItem = mGankItems.get(pos);
-        if (gankItem.isLike()) {
-            mCollectionDao.deleteCollectionById(this, gankItem.get_id());
-            mLikeButton.getDrawable().clearColorFilter();
-            mChangeItems.put(pos, false);
-        } else {
+        mSmallBang.bang(v, new SmallBangListener() {
+            @Override
+            public void onAnimationStart() {
+                int pos = mViewPager.getCurrentItem();
+                GankItem gankItem = mGankItems.get(pos);
+                if (gankItem.isLike()) {
+                    mCollectionDao.deleteCollectionById(FlowerDetailActivity.this, gankItem.get_id());
+                    gankItem.setLike(false);
+                    mGankItems.set(mViewPager.getCurrentItem(), gankItem);
+                    mLikeButton.getDrawable().clearColorFilter();
+                    mChangeItems.put(pos, false);
+                } else {
+                    Collection c = new Collection();
+                    c.setLocalPath(DownLoadUtil.IMAGE_FOLDER + gankItem.getFileName());
+                    c.setCollectionDate(new Date().toString());
+                    c.setType(Collection.TYPE_IMG);
+                    c.setUrl(gankItem.getUrl());
+                    c.setId(gankItem.get_id());
+                    mCollectionDao.save(FlowerDetailActivity.this, c);
+                    mChangeItems.put(pos, true);
+                    gankItem.setLike(true);
+                    mGankItems.set(mViewPager.getCurrentItem(), gankItem);
+                    mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
+                            R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+                }
+            }
 
-            Collection c = new Collection();
-            c.setLocalPath(DownLoadUtil.IMAGE_FOLDER + gankItem.getFileName());
-            c.setCollectionDate(new Date().toString());
-            c.setType(Collection.TYPE_IMG);
-            c.setUrl(gankItem.getUrl());
-            c.setId(gankItem.get_id());
-            mCollectionDao.save(this, c);
-            mChangeItems.put(pos, true);
-            gankItem.setLike(true);
-            mGankItems.set(mViewPager.getCurrentItem(), gankItem);
-            mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
-                    R.color.alert_red), PorterDuff.Mode.SRC_ATOP);
-        }
+            @Override
+            public void onAnimationEnd() {
+            }
+        });
     }
 
     @Override
@@ -101,18 +119,25 @@ public class FlowerDetailActivity extends ToolBarActivity {
         mCollectionDao = new CollectionDao();
         mChangeItems = new HashMap<>();
         mGankItems = getIntent().getParcelableArrayListExtra(KEY_DATA);
+        for (int i = 0; i < mGankItems.size(); i++) {
+            GankItem item = mGankItems.get(i);
+            Collection collectionById = mCollectionDao.getCollectionById(this, item.get_id());
+            if (collectionById != null) {
+                item.setLike(true);
+                mGankItems.set(i, item);
+                Log.e(TAG, "initData: " + item.get_id());
+            }
+        }
         int pos = getIntent().getIntExtra(KEY_POS, 0);
+        if (pos == 0 && mGankItems.get(0).isLike() && mLikeButton.getVisibility() == View.VISIBLE) {
+            mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        }
         mAdapter = new DetailAdapter(this, mGankItems);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(pos, false);
+        mViewPager.setCurrentItem(pos, true);
         mAdapter.setOnItemClickListener(new DetailAdapter.onItemClickListener() {
             @Override
             public void onItemClick() {
-                if (mLikeButton.isShown()) {
-                    mLikeButton.hide();
-                } else {
-                    mLikeButton.show();
-                }
                 hideOrShowAppBar();
             }
         });
@@ -120,20 +145,28 @@ public class FlowerDetailActivity extends ToolBarActivity {
 
     @Override
     protected void initView() {
+        mIsneedEdit = getIntent().getBooleanExtra(KEY_ACTION, false);
+        mLikeButton.setVisibility(mIsneedEdit ? View.VISIBLE : View.GONE);
         mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                GankItem item = mGankItems.get(position);
-                if (item.isLike()) {
-                    mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
-                            R.color.alert_red), PorterDuff.Mode.SRC_ATOP);
-                } else {
-                    mLikeButton.getDrawable().clearColorFilter();
+        if (mIsneedEdit) {
+            mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    GankItem item = mGankItems.get(position);
+                    Log.e(TAG, "onPageSelected: " + item.isLike());
+                    if (item.isLike()) {
+                        mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
+                                R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+                    } else {
+                        mLikeButton.getDrawable().clearColorFilter();
+                    }
                 }
-            }
-        });
+            });
+
+            mSmallBang = SmallBang.attach2Window(this);
+        }
+
     }
 
     @Override
@@ -204,6 +237,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
+            GankItem item = mdata.get(position);
             PhotoView photoView = new PhotoView(mContext);
             photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
                 @Override
@@ -214,7 +248,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
                 }
             });
             container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            Glide.with(mContext).load(mdata.get(position).getUrl()).asBitmap().fitCenter().into(new BitmapImageViewTarget(photoView) {
+            Glide.with(mContext).load(item.getUrl()).asBitmap().fitCenter().into(new BitmapImageViewTarget(photoView) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     super.onResourceReady(resource, glideAnimation);

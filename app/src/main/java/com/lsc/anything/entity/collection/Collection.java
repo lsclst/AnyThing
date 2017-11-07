@@ -123,6 +123,7 @@ public class Collection {
         GankItem item = new GankItem();
         item.setDesc(des);
         item.setUrl(url);
+        item.set_id(id);
         return item;
     }
 }

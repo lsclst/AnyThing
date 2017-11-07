@@ -6,6 +6,7 @@
 	android:layout_height="wrap_content"
 	android:layout_margin="5dp"
 	android:clickable="true"
+	android:minHeight="100dp"
 	android:foreground="?android:attr/selectableItemBackground"
 	android:stateListAnimator="@anim/cardview_anim"
 	app:cardCornerRadius="5sp"
