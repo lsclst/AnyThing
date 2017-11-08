@@ -120,12 +120,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
                     mHistoryView.removeFooterView(mFooterView);
                 } else {
                     keywordhasUse = true;
-                    mHistoryView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mHistoryView.animate().translationYBy(-mHistoryView.getHeight()).setDuration(500);
-                        }
-                    });
+                    mHistoryView.animate().translationYBy(-mHistoryView.getHeight()).setDuration(500);
                     mSearchEditText.setText((String) parent.getAdapter().getItem(position));
                     mSearchPresenter.search((String) parent.getAdapter().getItem(position));
                     sort((String) parent.getAdapter().getItem(position));
@@ -139,12 +134,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
                 if (keywordhasUse) {
                     mSearchResultAdapter.clearData();
                     mSearchPresenter.release();
-                    mHistoryView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mHistoryView.animate().translationYBy(mHistoryView.getHeight()).setDuration(500).start();
-                        }
-                    });
+                    mHistoryView.animate().translationYBy(mHistoryView.getHeight()).setDuration(500).start();
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
                 showHistories();
@@ -162,12 +152,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
                     } else {
                         sort(v.getText().toString());
                     }
-                    mHistoryView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mHistoryView.animate().translationYBy(-mHistoryView.getHeight()).setDuration(500);
-                        }
-                    });
+                    mHistoryView.animate().translationYBy(-mHistoryView.getHeight()).setDuration(500);
 
                     mSearchPresenter.search(v.getText().toString());
                     return true;
@@ -330,7 +315,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
         }
 
         @Override
-        protected void onDataViewBind(BaseViewHolder holder, int position,boolean isPayLoad) {
+        protected void onDataViewBind(BaseViewHolder holder, int position, boolean isPayLoad) {
             GankItem item = mData.get(position);
             ((TextView) holder.getViewById(R.id.id_study_title)).setText(item.getDesc());
             ((TextView) holder.getViewById(R.id.id_author)).setText(item.getWho());
