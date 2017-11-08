@@ -22,6 +22,7 @@
 		<activity android:name=".MainActivity">
 		</activity>
 		<activity android:name=".SplashActivity"
+		          android:screenOrientation="portrait"
 		          android:theme="@style/SplashTheme">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -29,11 +30,11 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".WebViewActivity"/>
-		<activity android:name=".module.flower.FlowerDetailActivity"/>
-		<activity android:name=".module.search.SearchActivity"/>
-		<activity android:name=".module.collection.CollectionActivity"/>
-		<activity android:name=".module.about.AboutActivity" android:theme="@style/AppTheme"/>
+		<activity android:name=".WebViewActivity" android:screenOrientation="portrait"/>
+		<activity android:name=".module.flower.FlowerDetailActivity" android:screenOrientation="portrait"/>
+		<activity android:name=".module.search.SearchActivity" android:screenOrientation="portrait"/>
+		<activity android:name=".module.collection.CollectionActivity" android:screenOrientation="portrait"/>
+		<activity android:name=".module.about.AboutActivity" android:theme="@style/AppTheme" android:screenOrientation="portrait"/>
 		<receiver android:name=".utils.DownLoadReceiver">
 			<intent-filter android:priority="1000">
 				<action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
