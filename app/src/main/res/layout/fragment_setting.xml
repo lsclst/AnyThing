@@ -29,7 +29,7 @@
 			           android:layout_height="30dp"
 			           android:layout_gravity="center_vertical"
 			           android:scaleType="center"
-			           android:tint="@color/colorAccent"
+			           android:tint="@color/Blue_Grey"
 			           app:srcCompat="@drawable/ic_collections_24dp"
 			/>
 			<TextView
@@ -78,7 +78,7 @@
 			           android:layout_height="30dp"
 			           android:layout_gravity="center_vertical"
 			           android:scaleType="center"
-			           android:tint="@color/colorPrimary"
+			           android:tint="@color/Blue_Grey"
 			           app:srcCompat="@drawable/ic_clearcache"
 			/>
 			<TextView
