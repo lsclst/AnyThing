@@ -21,8 +21,8 @@
 		android:visibility="gone"
 		app:srcCompat="@drawable/ic_like"/>
 	<ImageView android:id="@+id/id_splash_dl"
-	           android:layout_width="@dimen/splash_btn_size"
-	           android:layout_height="@dimen/splash_btn_size"
+	           android:layout_width="@dimen/like_btn_size"
+	           android:layout_height="@dimen/like_btn_size"
 	           android:layout_gravity="center_horizontal|bottom"
 	           android:layout_marginBottom="32dp"
 	           android:clickable="true"

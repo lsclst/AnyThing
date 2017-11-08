@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<dimen name="toolbar_elevation">8dp</dimen>
-	<dimen name="splash_btn_size">35dp</dimen>
+	<dimen name="like_btn_size">32dp</dimen>
 	<dimen name="touch_raise">12dp</dimen>
 </resources>

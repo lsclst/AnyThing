@@ -133,7 +133,7 @@ public class CollectionFragment extends ListFragment<GankItem> {
             public void onItemClick(BaseViewHolder holder, int position, Object item) {
                 if (item instanceof GankItem) {
                     if (((GankItem) item).getSaveType() == GankItem.TYPE_ARTICLE) {
-                        WebViewActivity.start(getContext(), ((GankItem) item).getUrl(), ((GankItem) item).getDesc());
+                        WebViewActivity.start(getContext(), (GankItem) item,false);
                     } else {
                         ArrayList<GankItem> items = (ArrayList<GankItem>) mAdapter.getData();
                         FlowerDetailActivity.startForResult(CollectionFragment.this, items, position, false);

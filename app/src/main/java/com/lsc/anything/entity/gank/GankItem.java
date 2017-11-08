@@ -144,6 +144,7 @@ public class GankItem implements Parcelable {
         dest.writeString(desc);
         dest.writeString(url);
         dest.writeString(publishedAt);
+        dest.writeString(who);
         dest.writeByte((byte) (isLike ? 1 : 0));
     }
 
@@ -155,11 +156,13 @@ public class GankItem implements Parcelable {
             String desc = source.readString();
             String url = source.readString();
             String date = source.readString();
+            String who = source.readString();
             boolean islike = source.readByte() != 0;
             item.set_id(id);
             item.setDesc(desc);
             item.setUrl(url);
             item.setLike(islike);
+            item.setWho(who);
             item.setPublishedAt(date);
             return item;
         }

@@ -5,7 +5,7 @@
 	<string name="setting">SETTING</string>
 	<string name="bottom_nav_behavior">com.lsc.anything.widget.behavior.BottomNavViewBehavior
 	</string>
-	<string name="fab_behavior">com.lsc.anything.widget.behavior.FabBehavior</string>
+	<string name="hide_show_behavior">com.lsc.anything.widget.behavior.ButtonHideOrShowBehavior</string>
 	<string name="network_error">网络错误</string>
 	<string name="share">分享</string>
 	<string name="open_in_browser">浏览器打开</string>

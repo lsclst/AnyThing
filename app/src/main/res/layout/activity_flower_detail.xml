@@ -15,8 +15,8 @@
 	                                       android:layout_height="match_parent"/>
 
 	<ImageView android:id="@+id/id_fab"
-	           android:layout_width="32dp"
-	           android:layout_height="32dp"
+	           android:layout_width="@dimen/like_btn_size"
+	           android:layout_height="@dimen/like_btn_size"
 	           android:layout_gravity="bottom|right"
 	           android:layout_marginBottom="48dp"
 	           android:layout_marginRight="18dp"

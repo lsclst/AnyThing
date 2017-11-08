@@ -45,4 +45,14 @@
 			/>
 		</RelativeLayout>
 	</FrameLayout>
+	<ImageView android:id="@+id/id_btn_like"
+	           android:layout_width="@dimen/like_btn_size"
+	           android:layout_height="@dimen/like_btn_size"
+	           android:layout_gravity="right|bottom"
+	           android:layout_marginBottom="16dp"
+	           android:layout_marginRight="16dp"
+	           android:clickable="true"
+	           android:focusable="true"
+	           app:layout_behavior="@string/hide_show_behavior"
+	           app:srcCompat="@drawable/ic_like"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -90,7 +90,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
             @Override
             public void onItemClick(BaseViewHolder holder, int position, Object item) {
                 if (item instanceof GankItem) {
-                    WebViewActivity.start(SearchActivity.this, ((GankItem) item).getUrl(), ((GankItem) item).getDesc());
+                    WebViewActivity.start(SearchActivity.this, (GankItem) item,true);
                 }
             }
 
