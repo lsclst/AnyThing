@@ -1,5 +1,7 @@
 package com.lsc.anything.widget.recylerview;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +23,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Ba
     protected List<E> mData;
     private List<? extends ViewType> mViewTypes;
     protected Context mContext;
-
+    private int mLastPos;
 
     public BaseRecyclerViewAdapter(Context context, List<E> data) {
         mData = data != null ? data : new ArrayList<E>();
@@ -35,6 +37,17 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Ba
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
 
+    }
+    protected void showItemAnimation(BaseViewHolder holder, int position) {
+        if (position > mLastPos) {
+            mLastPos = position;
+            ObjectAnimator translationY = ObjectAnimator.ofFloat(holder.itemView, "translationY", 1f * holder.itemView.getHeight(), 0f)
+                    .setDuration(500);
+            ObjectAnimator translationX = ObjectAnimator.ofFloat(holder.itemView, "translationX", 0.3f * holder.itemView.getWidth(), 0f).setDuration(500);
+            AnimatorSet set = new AnimatorSet();
+            set.play(translationX).with(translationY);
+            set.start();
+        }
     }
 
     protected abstract List<? extends ViewType> getViewTypes();

@@ -196,6 +196,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
                     view.setImageBitmap(resource);
                 }
             });
+            showItemAnimation(holder,position);
         }
 
         @Override
