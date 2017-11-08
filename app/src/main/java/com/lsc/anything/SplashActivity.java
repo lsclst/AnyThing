@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -94,7 +95,7 @@ public class SplashActivity extends BaseActivity {
                                         mSplashView.setImageDrawable(resource);
                                         mBtnDownLoad.setVisibility(View.VISIBLE);
                                         mBtnLike.setVisibility(View.VISIBLE);
-                                        mBtnLike.animate().scaleX(1.0f).scaleY(1.0f).alpha(0.5f).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator())
+                                        mBtnLike.animate().scaleX(1.0f).scaleY(1.0f).alpha(0.8f).setDuration(300).setInterpolator(new AccelerateDecelerateInterpolator())
                                                 .start();
                                         mHandler.postDelayed(new Runnable() {
                                             @Override
@@ -162,8 +163,9 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void onAnimationStart() {
                     if (mGankItem != null) {
-                        mBtnLike.clearColorFilter();
-                        mDao.deleteCollectionById(SplashActivity.this, mGankItem.get_id());
+                        mBtnLike.getDrawable().clearColorFilter();
+                        int i = mDao.deleteCollectionById(SplashActivity.this, mGankItem.get_id());
+                        Log.e("lsc", "delete: "+i );
                     } else {
                         mBtnLike.getDrawable().setColorFilter(ContextCompat.getColor(SplashActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
                         String nameFromPath = FileUtil.getFileNameFromPath(mDataBean.big);
