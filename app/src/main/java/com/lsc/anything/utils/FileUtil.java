@@ -7,7 +7,10 @@ import com.lsc.anything.App;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -22,6 +25,7 @@ import io.reactivex.annotations.NonNull;
  */
 
 public class FileUtil {
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
     public static final String KEY_HTTP = "http";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_WEB = "webview";
@@ -183,4 +187,11 @@ public class FileUtil {
         });
     }
 
+    public static String getFileNameFromPath(String path) {
+        int lastIndexOf = path.lastIndexOf("/");
+        if (lastIndexOf != -1) {
+            return path.substring(lastIndexOf).trim();
+        }
+        return String.valueOf(SIMPLE_DATE_FORMAT.format(new Date()));
+    }
 }

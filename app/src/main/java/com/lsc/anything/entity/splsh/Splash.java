@@ -8,73 +8,26 @@ package com.lsc.anything.entity.splsh;
 
 public class Splash {
 
+
     /**
-     * data : {"enddate":"20170707","url":"http://www.bing.com/az/hprichbg/rb/Umbrella_ZH-CN8238029705_1920x1080.jpg","bmiddle_pic":"http://wx4.sinaimg.cn/bmiddle/006qRazely1fhazs9hhgqj30sg0g0h42.jpg","original_pic":"http://wx4.sinaimg.cn/large/006qRazely1fhazs9hhgqj30sg0g0h42.jpg","thumbnail_pic":"http://wx4.sinaimg.cn/thumbnail/006qRazely1fhazs9hhgqj30sg0g0h42.jpg"}
-     * status : {"code":200,"message":""}
+     * ranking : http://open.lovebizhi.com/bdrom/ranking?code=vTr1blQqVg4gZpy9CgLtY%29l%7C%7CStSVd40wzuAoHf8WyH%29aLZsUsMrqZcVMR0
+     * banner : http://open.lovebizhi.com/bdrom/banner?code=vTr1blQqVg4gZpy9CgLtY%29l%7C%7CStSVd40wzuAoHf8WyH%29aLZsUsMrqZcVMR0
+     * wallpaper : http://open.lovebizhi.com/bdrom/wallpaper?code=vTr1blQqVg4gZpy9CgLtY%29l%7C%7CStSVd40wzuAoHf8WyH%29aLZsUsMrqZcVMR0
+     * recommend : http://open.lovebizhi.com/bdrom/recommend?code=vTr1blQqVg4gZpy9CgLtY%29l%7C%7CStSVd40wzuAoHf8WyH%29aLZsUsMrqZcVMR0
+     * category : [{"name":"影视明星","cover":"http://s.qdcdn.com/cl/14059842,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=0Ch3Be2DW0THzVG4AV%29Mw1DijlBY41jJkbYusyKSzs%7CY7mItblB8UmdrxjjTVWoT"},{"name":"风光风景","cover":"http://s.qdcdn.com/cl/13567728,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=c4%29X9xvUH5eWr2J4bPN1BxWEFfYdgSsfKoWHIOkpOZJHLCwFTANZAqbJa5fQ8U4H"},{"name":"花卉植物","cover":"http://s.qdcdn.com/cl/14215792,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=oCea6QNmAlKrWGAQy1CDaCPuKNLb92yu0z4UU4p0dQfFWo%7Coj4pjwrilLZmt2G%29e"},{"name":"魅力女性","cover":"http://s.qdcdn.com/cl/13430765,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=FvkYWAvym2B4qbgWTEz4e9bI6MU2ZbvOfBgP1k93wLhqnhTKFdCYx72%29p58zgu4I"},{"name":"游戏CG","cover":"http://s.qdcdn.com/cl/10836272,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=oqOSa7kTxduvtkbl%7CXsvwAldtQaluE%29Ayli7VbnSLsKVdPkx%29He99mombiuX0B5T"},{"name":"动物宠物","cover":"http://s.qdcdn.com/cl/11639950,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=GtDoOS%29SI1kXGUVjlAKO871l0kYVlF%7Ci9kWQFc261Nx3HN6sx51dEkaRh1l%7CZVj2"},{"name":"卡通动漫","cover":"http://s.qdcdn.com/cl/13044469,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=DEDkO%29xDDFPtjquyZlW5eU6FNW9FrcufCSd3zMG5fGcvhzHOHhX8jRqxQDMB3FVh"},{"name":"机车世界","cover":"http://s.qdcdn.com/cl/13237020,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=t2ZNZOIpH75nlOacJLzF1AzAtT4bvt8Wp4M6T0zqM3tKk2SppFwz3tQUv8NdOhPbfm4fuA"},{"name":"炫彩美图","cover":"http://s.qdcdn.com/cl/13044390,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=ksLPwV%7CgpDrisKH7j6XDGoMxBHY8j%7CENPDueOsbLIAOdkUdhYuXl3EOPnCrUj2zrFNcvLA"},{"name":"品牌欣赏","cover":"http://s.qdcdn.com/cl/13275504,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=cP4wr1illg1I0b6gq%7CSTi4UQpJczbX7%7C384hEhkhnccgU3Mu0SPDB9fq3rk1jc93LUjhBw"},{"name":"美食天下","cover":"http://s.qdcdn.com/cl/12753335,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=UEa8HUgGRnHfV%29J3Dmn8xiJOeNTx55Ua7v5C4sA0Ta4iqvOiiMSKR%29xSmsEV1mKLkwO3Iw"},{"name":"影视剧集","cover":"http://s.qdcdn.com/cl/14099880,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=5j3s8ACxPG8tfYUr1%29Y5RE0rUF4ppOxaBxa49NaQ50y1yQacPDAHDmiDb73a8OMbjGA5lg"},{"name":"美丽文字","cover":"http://s.qdcdn.com/cl/12463405,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=Jpu9o%29gE94yuRLWhFv2whCiNt4Crz8jgxnPT8pwdyMCvISXHZRrKAL5vBV9nb3a6t2YNLg"},{"name":"体育运动","cover":"http://s.qdcdn.com/cl/14186559,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=KOJF926wHf5OwjLFJ3pYiUVV%29u7%29CLU%7Cd8AysqfbvcOJITg9IlZN%29z9zd4Btrtoi3s%290%29w"},{"name":"艺术设计","cover":"http://s.qdcdn.com/cl/11573767,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=WRcWJ3q%29mOUpTQvdN3pfRfejmO5u7OViFkEd66B2ycJj1NBY5iaCO6CZXpnkpscVZ9jaNA"},{"name":"节庆假日","cover":"http://s.qdcdn.com/cl/11752467,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=zSr0ySQzKMWV98MOisa6dtRO48aqN3hBG9Zf%7CaMdMBz6msJma9MfNTqQB4MIEVI0"},{"name":"军事战争","cover":"http://s.qdcdn.com/cl/12750232,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=lrLw1IP4tmFxIBJZXgqvrk3TJDnkhO4u69EPIvTkgRY%29T5e0lCxwU69GWuBJ2qcQQjTJWg"},{"name":"美图杂烩","cover":"http://s.qdcdn.com/cl/11329141,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/category?code=Cc0xhKMatSDNpsYbpz93sFOqv8XBK6GVt4ymtgCHg1zm2dEJ3il0e1r%29nQeDVrQt2zutIw"}]
+     * everyday : [{"date":"2017-08-31","image":"http://s.qdcdn.com/cl/14543477,256,256.jpg","name":"08-31","url":"http://open.lovebizhi.com/bdrom/everyday?code=lMiN35gNArhej5%29PhIMAxAkuHwN3Yx%292MAM2YXN5hOoXIgCOSgag%7CupoAy9ezMSsFP50H9U62%29CdzOCh"},{"date":"2017-08-30","image":"http://s.qdcdn.com/cl/14552723,256,256.jpg","name":"08-30","url":"http://open.lovebizhi.com/bdrom/everyday?code=ZSqUgEYQrCLVAeC93uHblT5rTOTBFfqrvtGFWB%29bxim3w3fNryX2SA54a3bEpdq3S4J2Crh6san1LtuR"},{"date":"2017-08-29","image":"http://s.qdcdn.com/cl/14548170,256,256.jpg","name":"08-29","url":"http://open.lovebizhi.com/bdrom/everyday?code=FDcCfPQgcqzyrS3EXLpCnjpHDg2w%7Co8cPXUppO2fqGQvlk2BWEs5QDISVLV6SoZagESsy%7CSpag72W7sE"},{"date":"2017-08-28","image":"http://s.qdcdn.com/cl/14556134,256,256.jpg","name":"08-28","url":"http://open.lovebizhi.com/bdrom/everyday?code=0NsVlXgOG4msj%7CSNJvjjO8%7CX4RsdZee9Gmw2UQ3Fwm1u0PgoDw%29beKlyBM35WPmlzUHVGYLNUjuWvhy3"},{"date":"2017-08-27","image":"http://s.qdcdn.com/cl/14551769,256,256.jpg","name":"08-27","url":"http://open.lovebizhi.com/bdrom/everyday?code=kx2O1%7CYX7cNm3vF1n%29Rzcoc9rdJAORifH%7C2QJxecsMjLAzrVEz5TnXuasrN7yCcVf48%29MgdrYEPYuZnT"},{"date":"2017-08-26","image":"http://s.qdcdn.com/cl/14536420,256,256.jpg","name":"08-26","url":"http://open.lovebizhi.com/bdrom/everyday?code=5keVh3XUB8IBCrwlzj5IxQDIPPiA%29SVQE7XiJ7YbL2qN9Rh3oTeiwTCTR0WR27XgGiZ%29RGWd7zK6Dvak"},{"date":"2017-08-25","image":"http://s.qdcdn.com/cl/14557063,256,256.jpg","name":"08-25","url":"http://open.lovebizhi.com/bdrom/everyday?code=0%29uLromBbv%29%29awGZ15ARgw%7Cq0BnrKBuxDKHNwXj0LRVOIIHlckqdOXk3NzHNk5u7MC5qDYPsy19aHfMS"},{"date":"2017-08-24","image":"http://s.qdcdn.com/cl/14548163,256,256.jpg","name":"08-24","url":"http://open.lovebizhi.com/bdrom/everyday?code=pXG4hgRwBDhZ8ShRJCgf0WabBAkcFfZFj89yBEMaLsOfjQQXPwjk29wDuq9t0Ga5rrfNZd%7CU2NdWyWym"},{"date":"2017-08-23","image":"http://s.qdcdn.com/cl/14543434,256,256.jpg","name":"08-23","url":"http://open.lovebizhi.com/bdrom/everyday?code=WXsou8OkEroXAoXdY23ZduSbnz9OjllxfCbDhF4nKyBZtY37qjno%7C2Tg7GevKYgxviEF3eEOgPev12VF"},{"date":"2017-08-22","image":"http://s.qdcdn.com/cl/14544544,256,256.jpg","name":"08-22","url":"http://open.lovebizhi.com/bdrom/everyday?code=B%7CJy0Obzkqph5fPVOSiBLgPb6MMaWgiCZMjx%29PDWVLcxX%29gOD9JMMSVIKwQauNOEubXW94tfBY2AlukR"},{"date":"2017-08-21","image":"http://s.qdcdn.com/cl/14541708,256,256.jpg","name":"08-21","url":"http://open.lovebizhi.com/bdrom/everyday?code=%291krNVK%7CML6hm0InL0xy9YL4MBfaRgirrzQ0HvrJAzk0k69%7C3QXsDHKaeSt%7C8JLZLUGcuhLAzZAuXfEi"},{"date":"2017-08-20","image":"http://s.qdcdn.com/cl/14554350,256,256.jpg","name":"08-20","url":"http://open.lovebizhi.com/bdrom/everyday?code=rYGyNAUM5R6Pb95kl3tbDSEM1mEH2Z1o6BJ1FPVZelKtbRS1QQZgHztIUHT2wfwfdWKDX0DDEBliqAb9"},{"date":"2017-08-19","image":"http://s.qdcdn.com/cl/14551994,256,256.jpg","name":"08-19","url":"http://open.lovebizhi.com/bdrom/everyday?code=wt7M5GMkt0VF%7Cq0lkQKzVsjr7YnKGO7sR7biGMs2IC59KlZZM5t84L47rU3B8bErLgQf1C1kI8KFhy3z"},{"date":"2017-08-18","image":"http://s.qdcdn.com/cl/14556225,256,256.jpg","name":"08-18","url":"http://open.lovebizhi.com/bdrom/everyday?code=wkEmsRWVPxjJvgbqwVB5SZlKhLK1WXLkXO1ko%29d72%7CX2%7CYIUKP9yB73HSxo%29jyaUSpWVCkR9RDdK%29EBS"},{"date":"2017-08-17","image":"http://s.qdcdn.com/cl/14546274,256,256.jpg","name":"08-17","url":"http://open.lovebizhi.com/bdrom/everyday?code=TzU12sC0SSzKcfzdCmp%293xSFt%7CjSvPeyUKWc22jP644W3ZNAB9%7CnNJUXeoBeYVAm8Ak0AhNipYwLLpXg"}]
+     * special : [{"name":"壹周壁纸精选集","desc":"壹周里的精彩壁纸不容错过，快来看看吧！","icon":"http://s.qdcdn.com/c/14540556,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=iuApNPdR1nMiOsscz1cTAcRNtOkydd1kVf7HllUcOcK6IvriRuHtcQcDJS2zKaFUFaAw%29w"},{"name":"轻盈的背影","desc":"采一丝暖风，揉捏成白色的鹅毛笔，在小溪，在湖面，在海边，一遍一遍浅入水中，抒写你的名字，荡起的细纹，随时光，随岁月流浪，并融入生命的华章，美好的人儿，看得见的是我眼眸里，全是你的背影，你的背影就像一条清溪，慢慢的流进了我的心里。","icon":"http://s.qdcdn.com/c/14534295,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=L3B7TeqGzzmQLmxxkMh7RC9sGEG6wzBF9RZkOON4BuHmvMpKSeXkyTYUWoTCM6orzZQnyg"},{"name":"壹周壁纸精选集","desc":"这里有没有你想领略的美图，过来看看吧！","icon":"http://s.qdcdn.com/c/14529205,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=jlhh2baRIMckv%29Qzhv4cdRo1AOv2xNfQRND6QKCb5TXiNkWCr3e3S03j2na3MBJ3orquMQ"},{"name":"滴水美景","desc":"在细雨中行走，雨滴滴落在地上，融入水洼之中，掀起一丝涟漪。小小的雨滴，清新了空气，湿润了心灵。","icon":"http://s.qdcdn.com/c/14522730,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=toWkKFAy5eaPsNuzQ6ka1QMsXfL31WGK1HTva6tBirWaZBGuLeekGK%29qJQfKiSo34IZkkQ"},{"name":"城堡王国","desc":"在广阔的天宇下，这古老的砖墙随着群山万壑绵延伸展，跌宕起伏。那高大的城堡，像奋起的勇士，傲视长空；像沉思的巨人，默对苍穹。","icon":"http://s.qdcdn.com/c/14515600,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=12P6vmqtzoQJlT7R7hWa4KDBQ4cnI1Wt1SyLXcCOHEGs6ciFsKWNXd0Y0W3dlSmZ1tVaSA"},{"name":"夏日冰棍的回忆","desc":"白色的奶油冰棍，一毛五一根。舔一下，便有浓浓的甜奶香裹紧舌头。夏日里，总要咬一支冰棍消暑，赶走燥热，带来清凉。","icon":"http://s.qdcdn.com/c/14505870,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=vuwmiIz9qgASU%29M33yORHCt64cVaXI9WDgNW4F2QCfAgZhIH0EVZES8dBTh4O9vcj8sOIg"},{"name":"建筑空间","desc":"建筑，是离我们最近的\u201c艺术\u201d。我们每天生活在其中，建筑有美且使用的功能。建筑是一种无声的语言，在诉说着历史，展示着未来。","icon":"http://s.qdcdn.com/c/14503225,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=XXkdS8cT5acijGMVfOgZb4hJmMgiTS2d6yHOvTYIme8bc9AXbRJm%29%29Xs49IcxUR5IfbOuQ"},{"name":"不断按下快门，记录真实的你","desc":"相机是堪比文字更能表达我想展示的东西，因情感而拍摄，不刻意追求与你无关的影像，表现真实的自己，镜头中的每个女孩，都有着自己独特的魅力。","icon":"http://s.qdcdn.com/c/14495836,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=05JxrznYXR3KtKNpF8QhigjdZDMkkljzrt69F9Nxkg0JGRpO%29%7COYIETAOlMAgmjrrfM%296A"},{"name":"大儿童，六一，happy","desc":"倘若每个儿童节都能触动心底冰封的童心，我想，你的生活是快乐的，在每个让你难过的日子里，想想一些充满童真童趣的快乐时光，愿我们在未来的时光里，都能像孩子一样快乐，致大龄儿童们。六一儿童节快乐！","icon":"http://s.qdcdn.com/c/14487923,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=PJmOpTFH%7CbeCpsdt3i2dNKFlqfyJhpGzt8V15tyWzT54SSHkCy%7CyH8pbekZZjJUhPxP9Dw"},{"name":"粽飘香，舞端阳","desc":"又是一年端午时，情浓粽飘香，小爱祝大家端午节快乐。","icon":"http://s.qdcdn.com/c/14482175,256,256.jpg","url":"http://open.lovebizhi.com/bdrom/special?code=jz27sQEDZhixDcGryBD0wQzAEYSzb6%29dEjwyk%29OCengL3eP7beTXZ%29njt6g3c%29mojSC%7CgA"}]
      */
 
-    private DataBean data;
-    private StatusBean status;
+    private String recommend;
 
-    public DataBean getData() {
-        return data;
+    public String getRecommend() {
+        return recommend;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setRecommend(String recommend) {
+        this.recommend = recommend;
     }
 
-    public StatusBean getStatus() {
-        return status;
-    }
 
-    public void setStatus(StatusBean status) {
-        this.status = status;
-    }
-
-    public static class DataBean {
-        /**
-         * enddate : 20170707
-         * url : http://www.bing.com/az/hprichbg/rb/Umbrella_ZH-CN8238029705_1920x1080.jpg
-         * bmiddle_pic : http://wx4.sinaimg.cn/bmiddle/006qRazely1fhazs9hhgqj30sg0g0h42.jpg
-         * original_pic : http://wx4.sinaimg.cn/large/006qRazely1fhazs9hhgqj30sg0g0h42.jpg
-         * thumbnail_pic : http://wx4.sinaimg.cn/thumbnail/006qRazely1fhazs9hhgqj30sg0g0h42.jpg
-         */
-
-        private String url;
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-    }
-
-    public static class StatusBean {
-        /**
-         * code : 200
-         * message :
-         */
-
-        private int code;
-        private String message;
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-    }
 }
