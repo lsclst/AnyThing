@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -18,6 +15,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.lsc.anything.R;
 import com.lsc.anything.api.ApiHolder;
 import com.lsc.anything.base.ListFragment;
+import com.lsc.anything.database.SizeDao;
 import com.lsc.anything.entity.gank.GankItem;
 import com.lsc.anything.widget.RadioImageView;
 import com.lsc.anything.widget.footerview.Footer;
@@ -42,6 +40,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
     public static final String KEY_RESULT = "changeids";
     private FlowerAdapter mFlowerAdapter;
     private FlowerContract.FlowerPresenter mFlowerPresenter;
+    private boolean isGridLayout = true;
 
     public static FlowerFragment getInstance() {
         return new FlowerFragment();
@@ -51,7 +50,6 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Activity.RESULT_FIRST_USER && resultCode == Activity.RESULT_OK) {
-            Log.e(TAG, "onActivityResult: " );
             List<GankItem> gankItems = mFlowerAdapter.getData();
             HashMap<Integer, Boolean> result = (HashMap) data.getSerializableExtra(KEY_RESULT);
             Set<Map.Entry<Integer, Boolean>> entries = result.entrySet();
@@ -69,7 +67,6 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
 
     @Override
     public boolean prepareFetchData() {
-        Log.e(TAG, "prepareFetchData: " );
         return super.prepareFetchData();
     }
 
@@ -91,7 +88,6 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
 
     @Override
     public void fetchData() {
-        Log.e(TAG, "fetchData: ");
         mFlowerPresenter.getFlowers(ApiHolder.REQUEST_TYPE_REFRESH);
     }
 
@@ -111,9 +107,22 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
     @Override
     protected RecyclerView.LayoutManager getLayoutManager() {
         //        return new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        return new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        //                return new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        return new GridLayoutManager(getContext(), 2);
     }
 
+    public void changeListLayout() {
+        if (isGridLayout) {
+            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        }
+        isGridLayout = !isGridLayout;
+    }
+
+    public boolean isGridLayout() {
+        return isGridLayout;
+    }
 
     @Override
     protected HeaderAndFooterAdapter<GankItem> getAdapter(List<GankItem> datas) {
@@ -162,15 +171,15 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
 
     @Override
     public void showDetail(List<GankItem> gankItems, int position) {
-        FlowerDetailActivity.startForResult(this, (ArrayList<GankItem>) gankItems, position,true);
+        FlowerDetailActivity.startForResult(this, (ArrayList<GankItem>) gankItems, position, true);
     }
 
     private static class FlowerAdapter extends HeaderAndFooterAdapter<GankItem> {
-        private SparseArray<Size> mSizes;
+        private SizeDao mSizeDao;
 
         FlowerAdapter(Context context, List<GankItem> data) {
             super(context, data);
-            mSizes = new SparseArray<>();
+            mSizeDao = new SizeDao();
         }
 
         public FlowerAdapter(Context context) {
@@ -183,46 +192,32 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
         }
 
         @Override
-        protected void onDataViewBind(BaseViewHolder holder, final int position,boolean isPayLoad) {
+        protected void onDataViewBind(BaseViewHolder holder, final int position, boolean isPayLoad) {
             RadioImageView imgView = holder.getViewById(R.id.id_flower_img);
-            final Size size = mSizes.get(position);
+            //            final Size size = mSizes.get(position);
+            final Size size = getData().get(position).getSize();
             if (size != null) {
                 imgView.setOriginalSize(size.getImgWidth(), size.getImgHeight());
             }
             Glide.with(mContext).load(mData.get(position).getUrl())
-                    .asBitmap().override(540, 540).placeholder(R.drawable.ic_image_holder).into(new BitmapImageViewTarget(imgView) {
+                    .asBitmap().fitCenter().placeholder(R.drawable.ic_image_holder).into(new BitmapImageViewTarget(imgView) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     super.onResourceReady(resource, glideAnimation);
                     int bitmapWidth = resource.getWidth();
                     int bitmapHeight = resource.getHeight();
                     if (size == null) {
-                        mSizes.append(position, new Size(bitmapWidth, bitmapHeight));
+                        mSizeDao.saveSize(new Size(bitmapWidth, bitmapHeight, mData.get(position).getUrl()));
                         ((RadioImageView) view).setOriginalSize(bitmapWidth, bitmapHeight);
                     }
                     view.setImageBitmap(resource);
                 }
             });
-            showItemAnimation(holder,position);
+            showItemAnimation(holder, position);
         }
 
         @Override
-        public void onViewAttachedToWindow(BaseViewHolder holder) {
-            super.onViewAttachedToWindow(holder);
-            int position = holder.getAdapterPosition();
-
-            Size size = mSizes.get(position);
-
-            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-            if (size != null && size.isLanscape()) {
-                if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
-                    ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
-                }
-            }
-        }
-
-        @Override
-        protected void onFooterViewBind(BaseViewHolder holder, Object footer,boolean isPayLoad) {
+        protected void onFooterViewBind(BaseViewHolder holder, Object footer, boolean isPayLoad) {
             if (holder.getAdapterPosition() == 0) {
                 holder.itemView.setVisibility(View.GONE);
                 return;

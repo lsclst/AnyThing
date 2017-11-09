@@ -6,8 +6,9 @@ import com.lsc.anything.api.ApiHolder;
 import com.lsc.anything.database.DataBaseHelper;
 import com.lsc.anything.entity.gank.GankItem;
 import com.lsc.anything.entity.gank.GankResult;
+import com.lsc.anything.utils.BitmapUtil;
+import com.lsc.anything.widget.glide.Size;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -52,7 +53,7 @@ public class FlowerPresenterImpl implements FlowerContract.FlowerPresenter {
         }
 
         Disposable disposable = ApiHolder.getInstance().getGankService().getMeizi(mPage)
-                .map(new Function<GankResult, List<GankItem>>() {
+                /*.map(new Function<GankResult, List<GankItem>>() {
                     @Override
                     public List<GankItem> apply(@NonNull GankResult gankResult) throws Exception {
                         List<GankItem> results = new ArrayList<GankItem>();
@@ -71,21 +72,43 @@ public class FlowerPresenterImpl implements FlowerContract.FlowerPresenter {
                             return null;
                         }
                     }
-                }).observeOn(AndroidSchedulers.mainThread())
+                })*/
+                .map(new Function<GankResult, List<GankItem>>() {
+                    @Override
+                    public List<GankItem> apply(GankResult gankResult) throws Exception {
+                        if (!gankResult.isError()) {
+                            List<GankItem> results = gankResult.getResults();
+                            Size size;
+                            for (GankItem item :
+                                    results) {
+                                size = BitmapUtil.getINSTANCE().getBitmapWHFromPath(item.getUrl());
+                                boolean idExists = DataBaseHelper.getInstance(mContext.getApplicationContext())
+                                        .getCollectionsDao().idExists(item.get_id());
+                                item.setSize(size);
+                                item.setLike(idExists);
+
+                            }
+                            return results;
+                        }
+                        return null;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Consumer<List<GankItem>>() {
-                    @Override
-                    public void accept(@NonNull List<GankItem> gankItems) throws Exception {
-                        mFlowerView.showFlowers(requestType, gankItems);
-                        mFlowerView.hideProgressView();
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        mFlowerView.showErrorMessage("出错了" + throwable.getMessage());
-                        mFlowerView.hideProgressView();
-                    }
-                });
+                .subscribe(
+                        new Consumer<List<GankItem>>() {
+                            @Override
+                            public void accept(@NonNull List<GankItem> gankItems) throws Exception {
+                                mFlowerView.showFlowers(requestType, gankItems);
+                                mFlowerView.hideProgressView();
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(@NonNull Throwable throwable) throws Exception {
+                                mFlowerView.showErrorMessage("出错了" + throwable.getMessage());
+                                mFlowerView.hideProgressView();
+                            }
+                        });
 
         mCompositeDisposable.add(disposable);
     }

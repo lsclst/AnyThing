@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.lsc.anything.widget.glide.Size;
 
 /**
  * Created by lsc on 2017/9/12 0012.
@@ -27,6 +28,7 @@ public class GankItem implements Parcelable {
      * who : 小鄧子
      * images : ["http://img.gank.io/3b0b193d-6abf-4714-9d5a-5508404666f4"]
      */
+    //database start
     public static final int TYPE_ARTICLE = 0;
     public static final int TYPE_IMG = 1;
     public static final String COL_DATE = "date";
@@ -52,7 +54,47 @@ public class GankItem implements Parcelable {
     private String who;
     @DatabaseField(columnName = COL_LOCALPATH)
     private String localPath;
+    //database end
     private boolean isLike;
+
+    //use to record image size
+    private Size mSize;
+
+    public Size getSize() {
+        return mSize;
+    }
+
+    public void setSize(Size size) {
+        mSize = size;
+    }
+
+    public GankItem() {
+    }
+
+    protected GankItem(Parcel in) {
+        _id = in.readString();
+        desc = in.readString();
+        publishedAt = in.readString();
+        saveType = in.readInt();
+        type = in.readString();
+        url = in.readString();
+        who = in.readString();
+        localPath = in.readString();
+        isLike = in.readByte() != 0;
+        mSize = in.readParcelable(Size.class.getClassLoader());
+    }
+
+    public static final Creator<GankItem> CREATOR = new Creator<GankItem>() {
+        @Override
+        public GankItem createFromParcel(Parcel in) {
+            return new GankItem(in);
+        }
+
+        @Override
+        public GankItem[] newArray(int size) {
+            return new GankItem[size];
+        }
+    };
 
     public int getSaveType() {
         return saveType;
@@ -140,38 +182,19 @@ public class GankItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
         dest.writeString(_id);
         dest.writeString(desc);
-        dest.writeString(url);
         dest.writeString(publishedAt);
+        dest.writeInt(saveType);
+        dest.writeString(type);
+        dest.writeString(url);
         dest.writeString(who);
+        dest.writeString(localPath);
         dest.writeByte((byte) (isLike ? 1 : 0));
+        dest.writeParcelable(mSize, flags);
     }
 
-    public static final Creator<GankItem> CREATOR = new Creator<GankItem>() {
-        @Override
-        public GankItem createFromParcel(Parcel source) {
-            GankItem item = new GankItem();
-            String id = source.readString();
-            String desc = source.readString();
-            String url = source.readString();
-            String date = source.readString();
-            String who = source.readString();
-            boolean islike = source.readByte() != 0;
-            item.set_id(id);
-            item.setDesc(desc);
-            item.setUrl(url);
-            item.setLike(islike);
-            item.setWho(who);
-            item.setPublishedAt(date);
-            return item;
-        }
-
-        @Override
-        public GankItem[] newArray(int size) {
-            return new GankItem[size];
-        }
-    };
 
     private String getsuffix() {
         if (!TextUtils.isEmpty(url)) {

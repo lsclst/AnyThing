@@ -42,6 +42,7 @@ public class ApiHolder {
     private Retrofit mRetrofit;
     private static GankService mGankService;
     private static SplashService mSplashService;
+    private final OkHttpClient mOkHttpClient;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({REQUEST_TYPE_REFRESH, REQUEST_TYPE_LOADMORE})
@@ -95,7 +96,7 @@ public class ApiHolder {
 
         File cacheFile = new File(App.APPContext.getCacheDir(), "httpCache");
         Cache cache = new Cache(cacheFile, 1024 * 50 * 1024);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(cacheControlInterceptor)
+        mOkHttpClient = new OkHttpClient.Builder().addInterceptor(cacheControlInterceptor)
                 .addNetworkInterceptor(mLoggingInterceptor)
                 .cache(cache)
                 .build();
@@ -103,8 +104,12 @@ public class ApiHolder {
         mRetrofit = new Retrofit.Builder().baseUrl(Config.GANK_HOST)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(mGson))
-                .client(okHttpClient)
+                .client(mOkHttpClient)
                 .build();
+    }
+
+    public OkHttpClient getOkHttpClient() {
+        return mOkHttpClient;
     }
 
     private volatile static ApiHolder instance = null;

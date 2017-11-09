@@ -9,6 +9,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.lsc.anything.entity.gank.DownLoadEntity;
 import com.lsc.anything.entity.gank.GankItem;
+import com.lsc.anything.widget.glide.Size;
 
 import java.sql.SQLException;
 
@@ -31,6 +32,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTableIfNotExists(connectionSource, DownLoadEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, GankItem.class);
+            TableUtils.createTableIfNotExists(connectionSource, Size.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,4 +80,14 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return mCollectionsDao;
     }
+
+    private static Dao<Size, String> mSizeDao;
+
+    public Dao<Size, String> getSizeDao() throws SQLException {
+        if (mSizeDao == null) {
+            mSizeDao = getDao(Size.class);
+        }
+        return mSizeDao;
+    }
+
 }
