@@ -90,7 +90,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
             @Override
             public void onItemClick(BaseViewHolder holder, int position, Object item) {
                 if (item instanceof GankItem) {
-                    WebViewActivity.start(SearchActivity.this, (GankItem) item,true);
+                    WebViewActivity.start(SearchActivity.this, (GankItem) item, true);
                 }
             }
 
@@ -120,7 +120,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
                     mHistoryView.removeFooterView(mFooterView);
                 } else {
                     keywordhasUse = true;
-                    mHistoryView.animate().translationYBy(-mHistoryView.getHeight()).setDuration(500);
+                    mHistoryView.setVisibility(View.GONE);
                     mSearchEditText.setText((String) parent.getAdapter().getItem(position));
                     mSearchPresenter.search((String) parent.getAdapter().getItem(position));
                     sort((String) parent.getAdapter().getItem(position));
@@ -134,7 +134,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
                 if (keywordhasUse) {
                     mSearchResultAdapter.clearData();
                     mSearchPresenter.release();
-                    mHistoryView.animate().translationYBy(mHistoryView.getHeight()).setDuration(500).start();
+                    mHistoryView.setVisibility(View.VISIBLE);
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
                 showHistories();
@@ -152,7 +152,7 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
                     } else {
                         sort(v.getText().toString());
                     }
-                    mHistoryView.animate().translationYBy(-mHistoryView.getHeight()).setDuration(500);
+                    mHistoryView.setVisibility(View.GONE);
 
                     mSearchPresenter.search(v.getText().toString());
                     return true;
@@ -231,6 +231,8 @@ public class SearchActivity extends ToolBarActivity implements SearchContract.Se
     public void showHistories() {
         if (mHistoryAdapter.getCount() <= 0) {
             mFooterView.setVisibility(View.GONE);
+        } else {
+            mFooterView.setVisibility(View.VISIBLE);
         }
         mResultView.setVisibility(View.GONE);
         mHistoryView.setVisibility(View.VISIBLE);
