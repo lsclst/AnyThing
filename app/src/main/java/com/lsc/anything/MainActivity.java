@@ -13,6 +13,7 @@ import com.lsc.anything.module.flower.FlowerFragment;
 import com.lsc.anything.module.search.SearchActivity;
 import com.lsc.anything.module.setting.SettingFragment;
 import com.lsc.anything.module.study.StudyFragment;
+import com.lsc.anything.utils.ExitUtil;
 import com.lsc.anything.widget.BottomNavigationViewHelper;
 
 import butterknife.BindView;
@@ -153,4 +154,8 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        ExitUtil.exit();
+    }
 }
