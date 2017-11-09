@@ -68,13 +68,20 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
     }
 
     @Override
+    public boolean prepareFetchData() {
+        Log.e(TAG, "prepareFetchData: " );
+        return super.prepareFetchData();
+    }
+
+    @Override
+    public boolean prepareFetchData(boolean forceUpdate) {
+        isVisibleToUser = true;
+        return super.prepareFetchData(true);
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!hidden) {
-            isViewInitiated = true;
-            isVisibleToUser = true;
-            prepareFetchData();
-        }
     }
 
     @Override

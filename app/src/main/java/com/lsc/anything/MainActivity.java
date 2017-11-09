@@ -2,6 +2,7 @@ package com.lsc.anything;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,10 @@ import butterknife.BindView;
 public class MainActivity extends ToolBarActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String FM_TAG_STUDY = "study";
+    public static final String FM_TAG_FLOWER = "flower";
+    public static final String FM_TAG_SETTING = "setting";
+
     @BindView(R.id.id_navigationView)
     BottomNavigationView mNavigationView;
     @BindView(R.id.id_content)
@@ -35,9 +40,7 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         mFlowerFragment = FlowerFragment.getInstance();
         mSettingFragment = SettingFragment.getInstance();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.id_content, mSettingFragment)
-                .add(R.id.id_content, mFlowerFragment)
-                .add(R.id.id_content, mStudyFragment)
+                .add(R.id.id_content, mStudyFragment, FM_TAG_STUDY)
                 .commit();
 
     }
@@ -99,15 +102,35 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         switch (item.getItemId()) {
             case R.id.nav_menu_flower:
                 getSupportActionBar().setTitle(R.string.flower);
-                getSupportFragmentManager().beginTransaction().show(mFlowerFragment).commit();
+                if (mFlowerFragment.isAdded()) {
+                    getSupportFragmentManager().beginTransaction().show(mFlowerFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                } else {
+                    mFlowerFragment = FlowerFragment.getInstance();
+                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mFlowerFragment, FM_TAG_FLOWER)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                }
                 break;
             case R.id.nav_menu_setting:
                 getSupportActionBar().setTitle(R.string.setting);
-                getSupportFragmentManager().beginTransaction().show(mSettingFragment).commit();
+                if (mSettingFragment.isAdded()) {
+                    getSupportFragmentManager().beginTransaction().show(mSettingFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mSettingFragment, FM_TAG_SETTING)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                }
                 break;
             case R.id.nav_menu_study:
                 getSupportActionBar().setTitle(R.string.study);
-                getSupportFragmentManager().beginTransaction().show(mStudyFragment).commit();
+                if (mStudyFragment.isAdded()) {
+                    getSupportFragmentManager().beginTransaction().show(mStudyFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                } else {
+                    mStudyFragment = StudyFragment.getInstance();
+                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mStudyFragment, FM_TAG_STUDY)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                }
                 break;
             default:
                 break;
@@ -117,14 +140,17 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
 
 
     private void hideAllFragment() {
-        if (mStudyFragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(mStudyFragment).commit();
+        if (mStudyFragment.isAdded() && mStudyFragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(mStudyFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
         }
-        if (mFlowerFragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(mFlowerFragment).commit();
+        if (mFlowerFragment.isAdded() && mFlowerFragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(mFlowerFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
         }
-        if (mSettingFragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(mSettingFragment).commit();
+        if (mSettingFragment.isAdded() && mSettingFragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(mSettingFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
         }
     }
 
