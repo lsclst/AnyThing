@@ -72,7 +72,6 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
 
     @Override
     protected void initView() {
-
         mNavigationView.setOnNavigationItemSelectedListener(this);
         BottomNavigationViewHelper.disableShiftMode(mNavigationView);
     }

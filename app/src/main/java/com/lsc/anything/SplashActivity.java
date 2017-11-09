@@ -165,7 +165,7 @@ public class SplashActivity extends BaseActivity {
                     if (mGankItem != null) {
                         mBtnLike.getDrawable().clearColorFilter();
                         int i = mDao.deleteCollectionById(SplashActivity.this, mGankItem.get_id());
-                        Log.e("lsc", "delete: "+i );
+                        Log.e("lsc", "delete: " + i);
                     } else {
                         mBtnLike.getDrawable().setColorFilter(ContextCompat.getColor(SplashActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
                         String nameFromPath = FileUtil.getFileNameFromPath(mDataBean.big);
@@ -197,6 +197,6 @@ public class SplashActivity extends BaseActivity {
         mHandler.removeCallbacksAndMessages(null);
         finish();
         startActivity(new Intent(SplashActivity.this, MainActivity.class));
-
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }
