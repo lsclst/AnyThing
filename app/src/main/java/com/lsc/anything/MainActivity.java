@@ -33,8 +33,7 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
     private StudyFragment mStudyFragment;
     private FlowerFragment mFlowerFragment;
     private SettingFragment mSettingFragment;
-    private int mNavSelectId = -1;
-    private boolean isgridLayout = true;
+    private int mNavSelectId = R.id.nav_menu_study;
 
     @Override
     protected void initData() {
@@ -76,7 +75,7 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         int id = item.getItemId();
         if (id == R.id.id_menu_search) {
             SearchActivity.start(this);
-        }else if (id == R.id.id_menu_change_layout) {
+        } else if (id == R.id.id_menu_change_layout) {
             if (mFlowerFragment.isGridLayout()) {
                 item.setTitle(R.string.grid);
                 item.setIcon(R.drawable.ic_menu_grid);
@@ -114,6 +113,9 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (mNavSelectId == item.getItemId()) {
+            return false;
+        }
         hideAllFragment();
         mNavSelectId = item.getItemId();
         invalidateOptionsMenu();
