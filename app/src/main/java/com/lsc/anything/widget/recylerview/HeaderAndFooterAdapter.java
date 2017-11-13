@@ -148,6 +148,11 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        changeGridSpan(recyclerView);
+        recyclerView.addOnItemTouchListener(new ItemClickListener(mContext, this));
+    }
+
+    public void changeGridSpan(RecyclerView recyclerView) {
         final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             ((GridLayoutManager) layoutManager).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -159,7 +164,6 @@ public abstract class HeaderAndFooterAdapter<T> extends BaseRecyclerViewAdapter<
                 }
             });
         }
-        recyclerView.addOnItemTouchListener(new ItemClickListener(mContext, this));
     }
 
     @Override

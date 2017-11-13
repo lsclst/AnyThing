@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 
 import com.lsc.anything.R;
+import com.lsc.anything.widget.recylerview.MyRecyclerView;
 import com.lsc.anything.widget.recylerview.OnLoadMoreScrollListener;
 import com.lsc.anything.widget.recylerview.HeaderAndFooterAdapter;
 
@@ -23,7 +24,7 @@ import butterknife.BindView;
 public abstract class ListFragment<T> extends LazyLoadFragment implements OnLoadMoreScrollListener.onLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.id_recyclerView)
-    protected RecyclerView mRecyclerView;
+    protected MyRecyclerView mRecyclerView;
     @BindView(R.id.id_swipeRefreshLayout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 

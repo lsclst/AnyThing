@@ -76,8 +76,7 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         int id = item.getItemId();
         if (id == R.id.id_menu_search) {
             SearchActivity.start(this);
-        }
-        if (id == R.id.id_menu_change_layout) {
+        }else if (id == R.id.id_menu_change_layout) {
             if (mFlowerFragment.isGridLayout()) {
                 item.setTitle(R.string.grid);
                 item.setIcon(R.drawable.ic_menu_grid);
