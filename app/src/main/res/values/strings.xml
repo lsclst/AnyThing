@@ -45,6 +45,8 @@
 	<string name="feedback_tip">tip:AnyThing 的反馈</string>
 	<string name="device_model">设备类型</string>
 	<string name="sdk_version">sdk版本</string>
+	<string name="stagger">瀑布流</string>
+	<string name="grid">网格</string>
 	<string-array name="gank_type">
 		<item>Android</item>
 		<item>IOS</item>

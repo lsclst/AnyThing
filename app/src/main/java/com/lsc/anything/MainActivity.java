@@ -51,6 +51,14 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (mNavSelectId == R.id.nav_menu_flower) {
             menu.findItem(R.id.id_menu_change_layout).setVisible(true);
+            boolean gridLayout = mFlowerFragment.isGridLayout();
+            if (gridLayout) {
+                menu.findItem(R.id.id_menu_change_layout).setIcon(R.drawable.ic_menu_stagger);
+                menu.findItem(R.id.id_menu_change_layout).setTitle(R.string.stagger);
+            } else {
+                menu.findItem(R.id.id_menu_change_layout).setIcon(R.drawable.ic_menu_grid);
+                menu.findItem(R.id.id_menu_change_layout).setTitle(R.string.grid);
+            }
         } else {
             menu.findItem(R.id.id_menu_change_layout).setVisible(false);
         }
@@ -71,10 +79,10 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         }
         if (id == R.id.id_menu_change_layout) {
             if (mFlowerFragment.isGridLayout()) {
-                item.setTitle("切换网格");
+                item.setTitle(R.string.grid);
                 item.setIcon(R.drawable.ic_menu_grid);
             } else {
-                item.setTitle("切换瀑布流");
+                item.setTitle(R.string.stagger);
                 item.setIcon(R.drawable.ic_menu_stagger);
             }
             mFlowerFragment.changeListLayout();
