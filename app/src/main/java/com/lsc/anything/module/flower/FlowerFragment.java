@@ -194,7 +194,6 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
         @Override
         protected void onDataViewBind(BaseViewHolder holder, final int position, boolean isPayLoad) {
             RadioImageView imgView = holder.getViewById(R.id.id_flower_img);
-            //            final Size size = mSizes.get(position);
             final Size size = getData().get(position).getSize();
             if (size != null) {
                 imgView.setOriginalSize(size.getImgWidth(), size.getImgHeight());
@@ -203,11 +202,10 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
                     .asBitmap().fitCenter().placeholder(R.drawable.ic_image_holder).into(new BitmapImageViewTarget(imgView) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    super.onResourceReady(resource, glideAnimation);
                     int bitmapWidth = resource.getWidth();
                     int bitmapHeight = resource.getHeight();
                     if (size == null) {
-                        mSizeDao.saveSize(new Size(bitmapWidth, bitmapHeight, mData.get(position).getUrl()));
+                        mSizeDao.saveSize(new Size(mData.get(position).get_id(), bitmapWidth, bitmapHeight, mData.get(position).getUrl()));
                         ((RadioImageView) view).setOriginalSize(bitmapWidth, bitmapHeight);
                     }
                     view.setImageBitmap(resource);

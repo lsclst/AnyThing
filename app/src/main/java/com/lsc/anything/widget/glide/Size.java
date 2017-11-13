@@ -17,25 +17,25 @@ public class Size implements Parcelable {
     public static final String TB_NAME = "imgSize";
     public static final String COL_NAME_IMG_H = "imgHeight";
     public static final String COL_NAME_IMG_W = "imgWidth";
-    public static final String COL_NAME_IMG_PATH = "imgPath";
+    public static final String COL_NAME_IMG_ID = "_id";
     @DatabaseField(columnName = COL_NAME_IMG_H)
     private int imgHeight;
     @DatabaseField(columnName = COL_NAME_IMG_W)
     private int imgWidth;
-    @DatabaseField(id = true,columnName = COL_NAME_IMG_PATH)
-    private String imgPath;
+    @DatabaseField(id = true, columnName = COL_NAME_IMG_ID)
+    private String id;
     private boolean isLanscape;
 
-    public Size(int imgWidth, int imgHeight, String imgPath) {
+    public Size(String id, int imgWidth, int imgHeight, String imgPath) {
+        this.id = id;
         this.imgHeight = imgHeight;
         this.imgWidth = imgWidth;
-        this.imgPath = imgPath;
     }
 
     protected Size(Parcel in) {
+        id = in.readString();
         imgHeight = in.readInt();
         imgWidth = in.readInt();
-        imgPath = in.readString();
         isLanscape = in.readByte() != 0;
     }
 
@@ -89,10 +89,9 @@ public class Size implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(id);
         dest.writeInt(imgHeight);
         dest.writeInt(imgWidth);
-        dest.writeString(imgPath);
         dest.writeByte((byte) (isLanscape ? 1 : 0));
     }
 }

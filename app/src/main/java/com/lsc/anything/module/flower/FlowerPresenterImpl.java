@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.lsc.anything.api.ApiHolder;
 import com.lsc.anything.database.DataBaseHelper;
+import com.lsc.anything.database.SizeDao;
 import com.lsc.anything.entity.gank.GankItem;
 import com.lsc.anything.entity.gank.GankResult;
-import com.lsc.anything.utils.BitmapUtil;
 import com.lsc.anything.widget.glide.Size;
 
 import java.util.List;
@@ -31,11 +31,13 @@ public class FlowerPresenterImpl implements FlowerContract.FlowerPresenter {
     private FlowerContract.FlowerView mFlowerView;
     private Context mContext;
     private int mPage;
+    private SizeDao mSizeDao;
 
     public FlowerPresenterImpl(Context c, FlowerContract.FlowerView flowerView) {
         mFlowerView = flowerView;
         mCompositeDisposable = new CompositeDisposable();
         mContext = c;
+        mSizeDao = new SizeDao();
     }
 
     @Override
@@ -53,26 +55,6 @@ public class FlowerPresenterImpl implements FlowerContract.FlowerPresenter {
         }
 
         Disposable disposable = ApiHolder.getInstance().getGankService().getMeizi(mPage)
-                /*.map(new Function<GankResult, List<GankItem>>() {
-                    @Override
-                    public List<GankItem> apply(@NonNull GankResult gankResult) throws Exception {
-                        List<GankItem> results = new ArrayList<GankItem>();
-                        if (!gankResult.isError()) {
-                            List<GankItem> items = gankResult.getResults();
-                            for (GankItem item :
-                                    items) {
-                                boolean idExists = DataBaseHelper.getInstance(mContext.getApplicationContext())
-                                        .getCollectionsDao().idExists(item.get_id());
-                                item.setLike(idExists);
-                                results.add(item);
-                            }
-                            return results;
-
-                        } else {
-                            return null;
-                        }
-                    }
-                })*/
                 .map(new Function<GankResult, List<GankItem>>() {
                     @Override
                     public List<GankItem> apply(GankResult gankResult) throws Exception {
@@ -81,10 +63,12 @@ public class FlowerPresenterImpl implements FlowerContract.FlowerPresenter {
                             Size size;
                             for (GankItem item :
                                     results) {
-                                size = BitmapUtil.getINSTANCE().getBitmapWHFromPath(item.getUrl());
+                                size = mSizeDao.getSizeById(item.get_id());
+                                if (size != null) {
+                                    item.setSize(size);
+                                }
                                 boolean idExists = DataBaseHelper.getInstance(mContext.getApplicationContext())
                                         .getCollectionsDao().idExists(item.get_id());
-                                item.setSize(size);
                                 item.setLike(idExists);
 
                             }
