@@ -2,6 +2,7 @@ package com.lsc.anything.module.collection;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -136,7 +137,7 @@ public class CollectionFragment extends ListFragment<GankItem> {
                         WebViewActivity.start(getContext(), (GankItem) item, false);
                     } else {
                         ArrayList<GankItem> items = (ArrayList<GankItem>) mAdapter.getData();
-                        FlowerDetailActivity.startForResult(CollectionFragment.this, items, position, false);
+                        FlowerDetailActivity.startForResult(CollectionFragment.this, items, position, (ImageView) holder.getViewById(R.id.id_flower_img), false);
                     }
                 }
             }
@@ -180,7 +181,7 @@ public class CollectionFragment extends ListFragment<GankItem> {
                 checkBox.setChecked(isItemCheck(position));
             } else {
                 ImageView targetView = holder.getViewById(R.id.id_flower_img);
-
+                ViewCompat.setTransitionName(targetView, collection.get_id());
                 if (!TextUtils.isEmpty(localPath)) {
                     file = new File(localPath);
                 }

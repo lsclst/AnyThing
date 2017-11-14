@@ -1,20 +1,32 @@
 package com.lsc.anything;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.lsc.anything.base.ToolBarActivity;
+import com.lsc.anything.module.flower.FlowerDetailActivity;
 import com.lsc.anything.module.flower.FlowerFragment;
 import com.lsc.anything.module.search.SearchActivity;
 import com.lsc.anything.module.setting.SettingFragment;
 import com.lsc.anything.module.study.StudyFragment;
 import com.lsc.anything.utils.ExitUtil;
 import com.lsc.anything.widget.BottomNavigationViewHelper;
+import com.lsc.anything.widget.recylerview.BaseViewHolder;
+
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -34,15 +46,14 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
     private FlowerFragment mFlowerFragment;
     private SettingFragment mSettingFragment;
     private int mNavSelectId = R.id.nav_menu_study;
+    private Bundle mReturnBundle;
 
     @Override
     protected void initData() {
         mStudyFragment = StudyFragment.getInstance();
         mFlowerFragment = FlowerFragment.getInstance();
         mSettingFragment = SettingFragment.getInstance();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.id_content, mStudyFragment, FM_TAG_STUDY)
-                .commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.id_content, mStudyFragment, FM_TAG_STUDY).commit();
 
     }
 
@@ -89,6 +100,30 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setExitSharedElementCallback(new SharedElementCallback() {
+
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                if (mReturnBundle != null) {
+                    int startPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_STRAT_POS);
+                    int endPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_END_POS);
+                    if (startPos != endPos) {
+                        names.clear();
+                        sharedElements.clear();
+                        String s = mReturnBundle.getString(FlowerDetailActivity.KEY_SEN);
+                        BaseViewHolder holder = (BaseViewHolder) mFlowerFragment.getRecyclerView().findViewHolderForAdapterPosition(endPos);
+                        names.add(s);
+                        sharedElements.put(s, holder.getViewById(R.id.id_flower_img));
+                        mReturnBundle = null;
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
     protected void initView() {
         mNavigationView.setOnNavigationItemSelectedListener(this);
         BottomNavigationViewHelper.disableShiftMode(mNavigationView);
@@ -123,33 +158,27 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
             case R.id.nav_menu_flower:
                 getSupportActionBar().setTitle(R.string.flower);
                 if (mFlowerFragment.isAdded()) {
-                    getSupportFragmentManager().beginTransaction().show(mFlowerFragment)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                    getSupportFragmentManager().beginTransaction().show(mFlowerFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
                 } else {
                     mFlowerFragment = FlowerFragment.getInstance();
-                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mFlowerFragment, FM_TAG_FLOWER)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mFlowerFragment, FM_TAG_FLOWER).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
                 }
                 break;
             case R.id.nav_menu_setting:
                 getSupportActionBar().setTitle(R.string.setting);
                 if (mSettingFragment.isAdded()) {
-                    getSupportFragmentManager().beginTransaction().show(mSettingFragment)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                    getSupportFragmentManager().beginTransaction().show(mSettingFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
                 } else {
-                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mSettingFragment, FM_TAG_SETTING)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mSettingFragment, FM_TAG_SETTING).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
                 }
                 break;
             case R.id.nav_menu_study:
                 getSupportActionBar().setTitle(R.string.study);
                 if (mStudyFragment.isAdded()) {
-                    getSupportFragmentManager().beginTransaction().show(mStudyFragment)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                    getSupportFragmentManager().beginTransaction().show(mStudyFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
                 } else {
                     mStudyFragment = StudyFragment.getInstance();
-                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mStudyFragment, FM_TAG_STUDY)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                    getSupportFragmentManager().beginTransaction().add(R.id.id_content, mStudyFragment, FM_TAG_STUDY).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
                 }
                 break;
             default:
@@ -161,21 +190,40 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
 
     private void hideAllFragment() {
         if (mStudyFragment.isAdded() && mStudyFragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(mStudyFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+            getSupportFragmentManager().beginTransaction().hide(mStudyFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
         }
         if (mFlowerFragment.isAdded() && mFlowerFragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(mFlowerFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+            getSupportFragmentManager().beginTransaction().hide(mFlowerFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
         }
         if (mSettingFragment.isAdded() && mSettingFragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction().hide(mSettingFragment)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
+            getSupportFragmentManager().beginTransaction().hide(mSettingFragment).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
         }
     }
 
     @Override
     public void onBackPressed() {
         ExitUtil.exit();
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        mReturnBundle = data.getExtras();
+        int startPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_STRAT_POS);
+        int endPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_END_POS);
+        Log.e(TAG, "onActivityReenter: " + startPos + " end = " + endPos);
+        if (startPos != endPos) {
+            mFlowerFragment.getRecyclerView().scrollToPosition(endPos);
+        }
+        supportPostponeEnterTransition();
+        mFlowerFragment.getRecyclerView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mFlowerFragment.getRecyclerView().getViewTreeObserver().removeOnPreDrawListener(this);
+                supportStartPostponedEnterTransition();
+                return true;
+            }
+        });
+
     }
 }

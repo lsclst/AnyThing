@@ -76,6 +76,10 @@ public abstract class ListFragment<T> extends LazyLoadFragment implements OnLoad
         });
     }
 
+    public MyRecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
 }
 
 

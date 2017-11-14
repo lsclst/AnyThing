@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -53,8 +55,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
             List<GankItem> gankItems = mFlowerAdapter.getData();
             HashMap<Integer, Boolean> result = (HashMap) data.getSerializableExtra(KEY_RESULT);
             Set<Map.Entry<Integer, Boolean>> entries = result.entrySet();
-            for (Map.Entry<Integer, Boolean> entry :
-                    entries) {
+            for (Map.Entry<Integer, Boolean> entry : entries) {
                 int pos = entry.getKey();
                 boolean islike = entry.getValue();
                 GankItem item = gankItems.get(pos);
@@ -106,8 +107,6 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
 
     @Override
     protected RecyclerView.LayoutManager getLayoutManager() {
-        //        return new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        //                return new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         return new GridLayoutManager(getContext(), 2);
     }
 
@@ -131,7 +130,7 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
         mFlowerAdapter.setOnItemClickListener(new HeaderAndFooterAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseViewHolder holder, int position, Object item) {
-                showDetail(mFlowerAdapter.getData(), position);
+                showDetail(mFlowerAdapter.getData(), position, (ImageView) holder.getViewById(R.id.id_flower_img));
             }
 
             @Override
@@ -170,8 +169,8 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
     }
 
     @Override
-    public void showDetail(List<GankItem> gankItems, int position) {
-        FlowerDetailActivity.startForResult(this, (ArrayList<GankItem>) gankItems, position, true);
+    public void showDetail(List<GankItem> gankItems, int position, ImageView shareElementView) {
+        FlowerDetailActivity.startForResult(this, (ArrayList<GankItem>) gankItems, position, shareElementView, true);
     }
 
     private static class FlowerAdapter extends HeaderAndFooterAdapter<GankItem> {
@@ -193,13 +192,14 @@ public class FlowerFragment extends ListFragment<GankItem> implements FlowerCont
 
         @Override
         protected void onDataViewBind(BaseViewHolder holder, final int position, boolean isPayLoad) {
+            String id = getData().get(position).get_id();
             RadioImageView imgView = holder.getViewById(R.id.id_flower_img);
+            ViewCompat.setTransitionName(imgView, id);
             final Size size = getData().get(position).getSize();
             if (size != null) {
                 imgView.setOriginalSize(size.getImgWidth(), size.getImgHeight());
             }
-            Glide.with(mContext).load(mData.get(position).getUrl())
-                    .asBitmap().fitCenter().placeholder(R.drawable.ic_image_holder).into(new BitmapImageViewTarget(imgView) {
+            Glide.with(mContext).load(mData.get(position).getUrl()).asBitmap().fitCenter().placeholder(R.drawable.ic_image_holder).into(new BitmapImageViewTarget(imgView) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     int bitmapWidth = resource.getWidth();

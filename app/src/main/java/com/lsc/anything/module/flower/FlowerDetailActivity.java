@@ -1,14 +1,21 @@
 package com.lsc.anything.module.flower;
 
 import android.app.Activity;
+import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +39,7 @@ import com.lsc.anything.widget.viewpagertransfomer.ZoomOutPageTransformer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,7 +50,9 @@ public class FlowerDetailActivity extends ToolBarActivity {
     private static final String KEY_DATA = "data";
     private static final String KEY_POS = "pos";
     private static final String KEY_ACTION = "action";
-
+    public static final String KEY_SEN = "share_element_name";
+    public static final String KEY_STRAT_POS = "startPos";
+    public static final String KEY_END_POS = "endPos";
 
     private static final String TAG = FlowerDetailActivity.class.getSimpleName();
     @BindView(R.id.id_fab)
@@ -56,20 +66,44 @@ public class FlowerDetailActivity extends ToolBarActivity {
     private HashMap<Integer, Boolean> mChangeItems;
     private SmallBang mSmallBang;
     private boolean mIsneedEdit;
+    private int startPos, endPos;
+
+    private SharedElementCallback mSharedElementCallback = new SharedElementCallback() {
+        @Override
+        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+            if (startPos != endPos) {
+                names.clear();
+                sharedElements.clear();
+                PhotoView photoView = (PhotoView) mAdapter.getCurPhotoView();
+                String transitionName = ViewCompat.getTransitionName(photoView);
+                names.add(transitionName);
+                sharedElements.put(transitionName, photoView);
+            }
+        }
+    };
 
     @Override
     protected void setUpToolBar(Toolbar toolBar) {
         toolBar.setTitle("Flower");
     }
 
-    public static void startForResult(Fragment fragment, ArrayList<GankItem> datas, int pos, boolean needEdit) {
+    public static void startForResult(Fragment fragment, ArrayList<GankItem> datas, int pos, ImageView shareElement, boolean needEdit) {
+        String transitionName = ViewCompat.getTransitionName(shareElement);
         Intent i = new Intent(fragment.getContext(), FlowerDetailActivity.class);
         i.putParcelableArrayListExtra(KEY_DATA, datas);
         i.putExtra(KEY_POS, pos);
         i.putExtra(KEY_ACTION, needEdit);
-        fragment.startActivityForResult(i, Activity.RESULT_FIRST_USER);
+        i.putExtra(KEY_SEN, transitionName);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(fragment.getActivity(), shareElement, transitionName);
+        fragment.startActivityForResult(i, Activity.RESULT_FIRST_USER, optionsCompat.toBundle());
     }
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        supportPostponeEnterTransition();
+        setEnterSharedElementCallback(mSharedElementCallback);
+    }
 
     @OnClick(R.id.id_fab)
     public void onFabClick(View v) {
@@ -90,8 +124,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
                     mChangeItems.put(pos, true);
                     gankItem.setLike(true);
                     mGankItems.set(mViewPager.getCurrentItem(), gankItem);
-                    mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
-                            R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+                    mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
                 }
             }
 
@@ -119,13 +152,13 @@ public class FlowerDetailActivity extends ToolBarActivity {
                 mGankItems.set(i, item);
             }
         }
-        int pos = getIntent().getIntExtra(KEY_POS, 0);
-        if (pos == 0 && mGankItems.get(0).isLike() && mLikeButton.getVisibility() == View.VISIBLE) {
+        startPos = getIntent().getIntExtra(KEY_POS, 0);
+        if (startPos == 0 && mGankItems.get(0).isLike() && mLikeButton.getVisibility() == View.VISIBLE) {
             mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         }
         mAdapter = new DetailAdapter(this, mGankItems);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(pos, true);
+        mViewPager.setCurrentItem(startPos, true);
         mAdapter.setOnItemClickListener(new DetailAdapter.onItemClickListener() {
             @Override
             public void onItemClick() {
@@ -139,22 +172,23 @@ public class FlowerDetailActivity extends ToolBarActivity {
         mIsneedEdit = getIntent().getBooleanExtra(KEY_ACTION, false);
         mLikeButton.setVisibility(mIsneedEdit ? View.VISIBLE : View.GONE);
         mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());
-        if (mIsneedEdit) {
-            mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    super.onPageSelected(position);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                endPos = position;
+                if (mIsneedEdit) {
                     GankItem item = mGankItems.get(position);
                     if (item.isLike()) {
-                        mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this,
-                                R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+                        mLikeButton.getDrawable().setColorFilter(ContextCompat.getColor(FlowerDetailActivity.this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
                     } else {
                         mLikeButton.getDrawable().clearColorFilter();
                     }
                 }
-            });
-
-            mSmallBang = SmallBang.attach2Window(this);
+            }
+        });
+        if (mIsneedEdit) {
+            mSmallBang = SmallBang.attach2Window(FlowerDetailActivity.this);
         }
 
     }
@@ -169,8 +203,11 @@ public class FlowerDetailActivity extends ToolBarActivity {
     public void onBackPressed() {
         Intent i = new Intent();
         i.putExtra(FlowerFragment.KEY_RESULT, mChangeItems);
+        i.putExtra(KEY_STRAT_POS, startPos);
+        i.putExtra(KEY_END_POS, endPos);
+        i.putExtra(KEY_SEN, ViewCompat.getTransitionName(mAdapter.getCurPhotoView()));
         setResult(RESULT_OK, i);
-        finish();
+        finishAfterTransition();
     }
 
     @Override
@@ -184,8 +221,8 @@ public class FlowerDetailActivity extends ToolBarActivity {
         GankItem gankItem = mGankItems.get(mViewPager.getCurrentItem());
         switch (item.getItemId()) {
             case R.id.id_menu_download:
-                gankItem.setLocalPath(DownLoadUtil.IMAGE_FOLDER+gankItem.getFileName());
-                mCollectionDao.save(this,gankItem);
+                gankItem.setLocalPath(DownLoadUtil.IMAGE_FOLDER + gankItem.getFileName());
+                mCollectionDao.save(this, gankItem);
                 DownLoadUtil.getInstance().downloadPic(this, gankItem.getUrl(), gankItem.getFileName());
                 break;
             case R.id.id_menu_set_wallpaper:
@@ -203,6 +240,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
         List<GankItem> mdata;
         Context mContext;
         onItemClickListener mOnItemClickListener;
+        View curPhotoView;
 
         interface onItemClickListener {
             void onItemClick();
@@ -231,6 +269,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             GankItem item = mdata.get(position);
             PhotoView photoView = new PhotoView(mContext);
+            ViewCompat.setTransitionName(photoView, mdata.get(position).get_id());
             photoView.setOnPhotoTapListener(new OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(ImageView view, float x, float y) {
@@ -244,7 +283,7 @@ public class FlowerDetailActivity extends ToolBarActivity {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     super.onResourceReady(resource, glideAnimation);
-
+                    ActivityCompat.startPostponedEnterTransition((AppCompatActivity) mContext);
                 }
             });
             return photoView;
@@ -255,6 +294,14 @@ public class FlowerDetailActivity extends ToolBarActivity {
             container.removeView((View) object);
         }
 
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            curPhotoView = (PhotoView) object;
+        }
 
+        public View getCurPhotoView() {
+            return curPhotoView;
+        }
     }
 }

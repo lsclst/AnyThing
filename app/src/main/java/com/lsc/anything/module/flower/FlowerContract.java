@@ -1,5 +1,7 @@
 package com.lsc.anything.module.flower;
 
+import android.widget.ImageView;
+
 import com.lsc.anything.api.ApiHolder;
 import com.lsc.anything.base.mvp.BaseIPresenter;
 import com.lsc.anything.base.mvp.BaseIview;
@@ -16,7 +18,8 @@ import java.util.List;
 public interface FlowerContract {
     interface FlowerView extends BaseIview {
         void showFlowers(int requestType, List<GankItem> flowers);
-        void showDetail(List<GankItem> gankItems,int position);
+
+        void showDetail(List<GankItem> gankItems, int position, ImageView shareElementView);
     }
 
     interface FlowerPresenter extends BaseIPresenter {

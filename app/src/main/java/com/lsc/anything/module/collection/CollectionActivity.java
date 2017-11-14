@@ -1,17 +1,27 @@
 package com.lsc.anything.module.collection;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.lsc.anything.R;
 import com.lsc.anything.base.ToolBarActivity;
+import com.lsc.anything.module.flower.FlowerDetailActivity;
+import com.lsc.anything.widget.recylerview.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -26,11 +36,14 @@ public class CollectionActivity extends ToolBarActivity {
     ViewPager mViewPager;
     @BindView(R.id.id_tabLayout)
     TabLayout mTabLayout;
+    private Bundle mReturnBundle;
+    private CollectionFragment mImgFragment;
 
     @Override
     protected void initData() {
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(CollectionFragment.getInstance(CollectionFragment.TYPE_IMAGE));
+        mImgFragment = CollectionFragment.getInstance(CollectionFragment.TYPE_IMAGE);
+        fragments.add(mImgFragment);
         fragments.add(CollectionFragment.getInstance(CollectionFragment.TYPE_ARTICLE));
         final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(adapter);
@@ -46,10 +59,9 @@ public class CollectionActivity extends ToolBarActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE){
-                    for (Fragment f :
-                            adapter.getFragments()) {
-                        ((CollectionFragment)f).closeMultiChoice();
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    for (Fragment f : adapter.getFragments()) {
+                        ((CollectionFragment) f).closeMultiChoice();
                     }
                 }
             }
@@ -75,6 +87,52 @@ public class CollectionActivity extends ToolBarActivity {
     @Override
     protected boolean canGoBack() {
         return true;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setExitSharedElementCallback(new SharedElementCallback() {
+
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                if (mReturnBundle != null) {
+                    int startPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_STRAT_POS);
+                    int endPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_END_POS);
+                    if (startPos != endPos) {
+                        names.clear();
+                        sharedElements.clear();
+                        String s = mReturnBundle.getString(FlowerDetailActivity.KEY_SEN);
+                        BaseViewHolder holder = (BaseViewHolder) mImgFragment.getRecyclerView().findViewHolderForAdapterPosition(endPos);
+                        names.add(s);
+                        sharedElements.put(s, holder.getViewById(R.id.id_flower_img));
+                        mReturnBundle = null;
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        mReturnBundle = data.getExtras();
+        int startPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_STRAT_POS);
+        int endPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_END_POS);
+        Log.e("lsc", "onActivityReenter: "+startPos+" enpos "+endPos);
+        if (startPos != endPos) {
+            mImgFragment.getRecyclerView().scrollToPosition(endPos);
+        }
+        supportPostponeEnterTransition();
+        mImgFragment.getRecyclerView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mImgFragment.getRecyclerView().getViewTreeObserver().removeOnPreDrawListener(this);
+                supportStartPostponedEnterTransition();
+                return true;
+            }
+        });
+
     }
 
     private static class PagerAdapter extends FragmentPagerAdapter {
