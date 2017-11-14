@@ -71,7 +71,7 @@ public abstract class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter<Ba
 
     public void clearData() {
         mData.clear();
-        notifyItemRangeRemoved(0, getItemCount());
+        notifyDataSetChanged();
     }
 
 

@@ -39,6 +39,8 @@ dependencies {
     //ButterKnife
     compile "com.jakewharton:butterknife:$rootProject.ButterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ButterKnifeVersion"
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'

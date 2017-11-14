@@ -3,6 +3,8 @@ package com.lsc.anything;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 /**
  * Created by lsc on 2017/9/18 0018.
  *
@@ -16,5 +18,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         APPContext = this;
+        LeakCanary.install(this);
     }
 }

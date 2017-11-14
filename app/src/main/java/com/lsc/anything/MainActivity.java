@@ -8,7 +8,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -211,7 +210,6 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         mReturnBundle = data.getExtras();
         int startPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_STRAT_POS);
         int endPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_END_POS);
-        Log.e(TAG, "onActivityReenter: " + startPos + " end = " + endPos);
         if (startPos != endPos) {
             mFlowerFragment.getRecyclerView().scrollToPosition(endPos);
         }
