@@ -186,9 +186,9 @@ public class CollectionFragment extends ListFragment<GankItem> {
                     file = new File(localPath);
                 }
                 if (file != null && file.exists()) {
-                    Glide.with(holder.itemView.getContext()).load(file).into(targetView);
+                    Glide.with(holder.itemView.getContext()).load(file).centerCrop().into(targetView);
                 } else {
-                    Glide.with(holder.itemView.getContext()).load(collection.getUrl()).into(targetView);
+                    Glide.with(holder.itemView.getContext()).load(collection.getUrl()).centerCrop().into(targetView);
                 }
             }
 
@@ -196,7 +196,7 @@ public class CollectionFragment extends ListFragment<GankItem> {
 
         @Override
         protected int getItemViewId() {
-            return R.layout.flower_item;
+            return R.layout.collection_flower_item;
         }
 
 

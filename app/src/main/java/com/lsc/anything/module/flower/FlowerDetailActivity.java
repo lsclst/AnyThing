@@ -17,6 +17,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.lsc.anything.R;
 import com.lsc.anything.base.ToolBarActivity;
 import com.lsc.anything.database.CollectionDao;
 import com.lsc.anything.entity.gank.GankItem;
+import com.lsc.anything.module.collection.TransitionListenerAdapter;
 import com.lsc.anything.utils.DownLoadUtil;
 import com.lsc.anything.widget.HackViewPager;
 import com.lsc.anything.widget.viewpagertransfomer.ZoomOutPageTransformer;
@@ -169,6 +171,20 @@ public class FlowerDetailActivity extends ToolBarActivity {
 
     @Override
     protected void initView() {
+        getWindow().getSharedElementEnterTransition().addListener(new TransitionListenerAdapter() {
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                super.onTransitionEnd(transition);
+                hideOrShowAppBar();
+            }
+
+
+            @Override
+            public void onTransitionStart(Transition transition) {
+                super.onTransitionStart(transition);
+                hideOrShowAppBar();
+            }
+        });
         mIsneedEdit = getIntent().getBooleanExtra(KEY_ACTION, false);
         mLikeButton.setVisibility(mIsneedEdit ? View.VISIBLE : View.GONE);
         mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());

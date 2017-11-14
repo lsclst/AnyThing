@@ -51,12 +51,14 @@ public abstract class ToolBarActivity extends BaseActivity implements View.OnCli
 
     protected void hideOrShowAppBar() {
         if (mAppBarLayout != null) {
+            mAppBarLayout.animate().cancel();
             mAppBarLayout.animate()
                     .translationY(isToolBarHiding ? 0 : -mAppBarLayout.getHeight())
                     .setInterpolator(new DecelerateInterpolator(2))
                     .start();
             isToolBarHiding = !isToolBarHiding;
         } else if (mToolbar != null) {
+            mToolbar.animate().cancel();
             mToolbar.animate()
                     .translationY(isToolBarHiding ? 0 : -mToolbar.getHeight())
                     .setInterpolator(new DecelerateInterpolator(2))

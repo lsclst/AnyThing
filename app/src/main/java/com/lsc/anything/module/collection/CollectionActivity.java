@@ -119,7 +119,7 @@ public class CollectionActivity extends ToolBarActivity {
         mReturnBundle = data.getExtras();
         int startPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_STRAT_POS);
         int endPos = mReturnBundle.getInt(FlowerDetailActivity.KEY_END_POS);
-        Log.e("lsc", "onActivityReenter: "+startPos+" enpos "+endPos);
+        Log.e("lsc", "onActivityReenter: " + startPos + " enpos " + endPos);
         if (startPos != endPos) {
             mImgFragment.getRecyclerView().scrollToPosition(endPos);
         }
