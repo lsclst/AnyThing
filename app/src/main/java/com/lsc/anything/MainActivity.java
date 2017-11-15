@@ -224,4 +224,23 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
         });
 
     }
+
+    @Override
+    protected void onToolBarClick(View toolbar) {
+        super.onToolBarClick(toolbar);
+        switch (mNavSelectId) {
+            case R.id.nav_menu_flower:
+                if (mFlowerFragment != null) {
+                    mFlowerFragment.scrollToTop();
+                }
+                break;
+            case R.id.nav_menu_study:
+                if (mStudyFragment != null) {
+                    mStudyFragment.scrollToTop();
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

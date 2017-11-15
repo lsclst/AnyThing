@@ -60,8 +60,7 @@ public abstract class ListFragment<T> extends LazyLoadFragment implements OnLoad
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!mSwipeRefreshLayout.isRefreshing())
-                    mSwipeRefreshLayout.setRefreshing(true);
+                if (!mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(true);
             }
         });
     }
@@ -70,8 +69,7 @@ public abstract class ListFragment<T> extends LazyLoadFragment implements OnLoad
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mSwipeRefreshLayout.isRefreshing())
-                    mSwipeRefreshLayout.setRefreshing(false);
+                if (mSwipeRefreshLayout.isRefreshing()) mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -80,6 +78,11 @@ public abstract class ListFragment<T> extends LazyLoadFragment implements OnLoad
         return mRecyclerView;
     }
 
+    public void scrollToTop() {
+        if (mRecyclerView != null) {
+            mRecyclerView.smoothScrollToPosition(0);
+        }
+    }
 }
 
 
