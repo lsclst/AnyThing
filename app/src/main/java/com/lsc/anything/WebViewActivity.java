@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,12 +58,12 @@ public class WebViewActivity extends ToolBarActivity {
             mGankItem = bundleExtra.getParcelable(KEY_DATA);
             mWebView.loadUrl(mGankItem.getUrl());
             mDao = new CollectionDao();
-            GankItem collectionById = mDao.getCollectionById(this, mGankItem.get_id());
-            if (isSaved = collectionById != null) {
-                mBtnLike.getDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-            } else {
-                mBtnLike.getDrawable().clearColorFilter();
-            }
+//            GankItem collectionById = mDao.getCollectionById(this, mGankItem.get_id());
+//            if (isSaved = collectionById != null) {
+//                mBtnLike.getDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+//            } else {
+//                mBtnLike.getDrawable().clearColorFilter();
+//            }
         }
     }
 
@@ -159,6 +160,7 @@ public class WebViewActivity extends ToolBarActivity {
         b.putParcelable(KEY_DATA, item);
         i.putExtra(KEY_NEED_EDIT, isNeedEdit);
         i.putExtras(b);
+        Log.e("lsc", "start: "+item.get_id() );
         context.startActivity(i);
     }
 

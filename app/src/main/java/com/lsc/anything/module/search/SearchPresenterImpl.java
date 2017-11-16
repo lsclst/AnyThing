@@ -47,7 +47,6 @@ public class SearchPresenterImpl implements SearchContract.SearchPresenter {
     public void onLoadMore() {
         if (!TextUtils.isEmpty(mcurKeyword)) {
             page++;
-            Log.e("lsc", "onLoadMore: ");
             getresult(ApiHolder.REQUEST_TYPE_LOADMORE, mcurKeyword);
         }
     }

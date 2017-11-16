@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.lsc.anything.widget.glide.Size;
@@ -40,6 +41,7 @@ public class GankItem implements Parcelable {
     public static final String COL_WHO = "who";
 
     @DatabaseField(columnName = "id", id = true)
+    @SerializedName(value = "_id",alternate = {"ganhuo_id"})
     private String _id;
     @DatabaseField(columnName = COL_DES)
     private String desc;
