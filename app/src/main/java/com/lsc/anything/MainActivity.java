@@ -1,5 +1,6 @@
 package com.lsc.anything;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.SharedElementCallback;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +24,9 @@ import com.lsc.anything.module.search.SearchActivity;
 import com.lsc.anything.module.setting.SettingFragment;
 import com.lsc.anything.module.study.StudyFragment;
 import com.lsc.anything.utils.ExitUtil;
+import com.lsc.anything.utils.FileUtil;
+import com.lsc.anything.utils.ShareUtil;
+import com.lsc.anything.utils.SpfUtil;
 import com.lsc.anything.widget.BottomNavigationViewHelper;
 import com.lsc.anything.widget.recylerview.BaseViewHolder;
 
@@ -126,6 +132,22 @@ public class MainActivity extends ToolBarActivity implements BottomNavigationVie
     protected void initView() {
         mNavigationView.setOnNavigationItemSelectedListener(this);
         BottomNavigationViewHelper.disableShiftMode(mNavigationView);
+        Log.e(TAG, "initView: "+SpfUtil.getInstance().getCrashFlag() );
+        if (SpfUtil.getInstance().getCrashFlag()) {
+            new AlertDialog.Builder(this, R.style.dialogNoTitle).setMessage(R.string.isLogFeedBack).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SpfUtil.getInstance().saveCrashFlag(false);
+                    String crashlog = FileUtil.readCrashFileTOString(MainActivity.this);
+                    ShareUtil.sendMail(MainActivity.this, getString(R.string.sendto), getString(R.string.log_feedBack), crashlog);
+                }
+            }).setNegativeButton(R.string.btn_reject, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SpfUtil.getInstance().saveCrashFlag(false);
+                }
+            }).setTitle(R.string.log_feedBack).setCancelable(false).show();
+        }
     }
 
     @Override

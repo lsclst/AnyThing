@@ -10,6 +10,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.lsc.anything.R;
+import com.lsc.anything.utils.ShareUtil;
 import com.lsc.anything.utils.ToastUtil;
 
 /**
@@ -36,15 +37,7 @@ public class AboutDetailFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 try {
-
-                    Uri uri = Uri.parse(getString(R.string.sendto));
-                    Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-                    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_tip));
-                    intent.putExtra(Intent.EXTRA_TEXT,
-                            getString(R.string.device_model) + Build.MODEL + "\n"
-                                    + getString(R.string.sdk_version) + Build.VERSION.RELEASE + "\n"
-                                    + getString(R.string.app_version));
-                    getContext().startActivity(intent);
+                    ShareUtil.sendMail(getContext(), getString(R.string.sendto), getString(R.string.feedback_tip), getString(R.string.device_model) + Build.MODEL + "\n" + getString(R.string.sdk_version) + Build.VERSION.RELEASE + "\n" + getString(R.string.app_version));
                 } catch (ActivityNotFoundException e) {
                     ToastUtil.showErrorMsg("没有邮件App");
                 }

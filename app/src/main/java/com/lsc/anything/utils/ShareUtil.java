@@ -30,4 +30,12 @@ public class ShareUtil {
         share.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(share);
     }
+
+    public static void sendMail(Context c, String adress, String subject, String msg) {
+        Uri uri = Uri.parse(adress);
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, msg);
+        c.startActivity(intent);
+    }
 }

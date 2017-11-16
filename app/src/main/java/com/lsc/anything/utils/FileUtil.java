@@ -1,11 +1,17 @@
 package com.lsc.anything.utils;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.lsc.anything.App;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,8 +47,7 @@ public class FileUtil {
         if (folder.exists()) {
             File[] files = folder.listFiles();
             if (files != null) {
-                for (File f :
-                        files) {
+                for (File f : files) {
                     if (f.isFile()) {
 
                         fileSize += f.length();
@@ -55,13 +60,12 @@ public class FileUtil {
         return fileSize;
     }
 
-    private static boolean deleteCache(File folder) {
+    public static boolean deleteCache(File folder) {
         boolean isSuccess = false;
         if (folder.exists()) {
             File[] files = folder.listFiles();
             if (files != null) {
-                for (File f :
-                        files) {
+                for (File f : files) {
                     if (f.isFile()) {
                         isSuccess = deleteFile(f);
                     } else if (f.isDirectory()) {
@@ -193,5 +197,43 @@ public class FileUtil {
             return path.substring(lastIndexOf).trim();
         }
         return String.valueOf(SIMPLE_DATE_FORMAT.format(new Date()));
+    }
+
+    public static String readCrashFileTOString(Context c) {
+        StringBuilder result = new StringBuilder();
+        BufferedReader reader = null;
+        InputStreamReader ir = null;
+        FileInputStream fos = null;
+        try {
+            fos = c.getApplicationContext().openFileInput(CrashHandler.CRASH_LOG_NAME);
+            ir = new InputStreamReader(fos);
+            reader = new BufferedReader(ir);
+            String s;
+            while ((s = reader.readLine()) != null) {
+                result.append(s);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (ir != null) {
+                    ir.close();
+                }
+                if (fos != null) {
+                    fos.close();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return result.toString();
     }
 }

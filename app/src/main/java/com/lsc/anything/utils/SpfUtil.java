@@ -18,6 +18,7 @@ public class SpfUtil {
     private static final String KEY_SEARCH_HIStORY = "search_history";
     private static final String KEY_SEARCH_COUNT = "search_size";
     private static final String SPF_NAME = "my_spf";
+    private static final String KEY_CRASH_FLAG = "crash_flag";
 
     private SharedPreferences spf;
 
@@ -62,4 +63,11 @@ public class SpfUtil {
         return results;
     }
 
+    public void saveCrashFlag(boolean isCrash) {
+        spf.edit().putBoolean(KEY_CRASH_FLAG, isCrash).commit();
+    }
+
+    public boolean getCrashFlag() {
+        return spf.getBoolean(KEY_CRASH_FLAG, false);
+    }
 }
