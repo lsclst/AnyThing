@@ -1,5 +1,7 @@
 package com.lsc.anything.utils;
 
+import android.os.Process;
+
 /**
  * Created by lsc on 2017/11/9 0009.
  *
@@ -11,7 +13,7 @@ public class ExitUtil {
 
     public static void exit() {
         if (System.currentTimeMillis() - sLastClickTime < 2000) {
-            System.exit(0);
+            Process.killProcess(Process.myPid());
         } else {
             ToastUtil.showMsg("再按一次退出");
             sLastClickTime = System.currentTimeMillis();
