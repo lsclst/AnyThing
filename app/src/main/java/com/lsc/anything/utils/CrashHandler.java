@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Looper;
 import android.os.Process;
 
 import com.lsc.anything.App;
 import com.lsc.anything.MainActivity;
+import com.lsc.anything.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +56,19 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private void handleException(Throwable e) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                ToastUtil.showErrorMsg(mContext.getString(R.string.oh_crash));
+                Looper.loop();
+            }
+        }).start();
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
         StringBuilder builder = new StringBuilder();
         try {
             String versionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
@@ -61,7 +76,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             writeToLocal(builder.toString(), e);
             PendingIntent intent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, MainActivity.class), PendingIntent.FLAG_ONE_SHOT);
             AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC, 1000, intent);
+            alarmManager.set(AlarmManager.RTC, 500, intent);
             ((App) mContext).finishAllActivity();
             SpfUtil.getInstance().saveCrashFlag(true);
             Process.killProcess(Process.myPid());

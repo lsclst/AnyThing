@@ -51,6 +51,7 @@
 	<string name="isLogFeedBack">检测到App崩溃,是否反馈日志</string>
 	<string name="btn_ok">好的</string>
 	<string name="btn_reject">残忍拒绝</string>
+	<string name="oh_crash">╥﹏╥哎呀,程序竟然崩溃了 \n 正在努力重启</string>
 	<string-array name="gank_type">
 		<item>Android</item>
 		<item>IOS</item>
