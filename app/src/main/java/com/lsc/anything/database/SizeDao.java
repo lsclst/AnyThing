@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 
 public class SizeDao {
-    public Size getSizeById( String id) {
+    public Size getSizeById(String id) {
         try {
             return DataBaseHelper.getInstance(App.APPContext).getSizeDao().queryForId(id);
         } catch (SQLException e) {
@@ -21,7 +21,7 @@ public class SizeDao {
         return null;
     }
 
-    public void saveSize(Size size){
+    public void saveSize(Size size) {
         try {
             DataBaseHelper.getInstance(App.APPContext).getSizeDao().createIfNotExists(size);
         } catch (SQLException e) {

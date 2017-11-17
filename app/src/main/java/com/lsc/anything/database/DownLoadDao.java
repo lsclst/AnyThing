@@ -18,7 +18,7 @@ public class DownLoadDao {
 
     public void add(Context context, DownLoadEntity entity) {
         try {
-            DataBaseHelper.getInstance(context).getDownLoadDao().createOrUpdate(entity);
+            DataBaseHelper.getInstance(context.getApplicationContext()).getDownLoadDao().createOrUpdate(entity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class DownLoadDao {
 
     public void removeById(Context context, long id) {
         try {
-            DataBaseHelper.getInstance(context).getDownLoadDao().deleteById(id);
+            DataBaseHelper.getInstance(context.getApplicationContext()).getDownLoadDao().deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class DownLoadDao {
     public DownLoadEntity getDownLoadEntityById(Context context, long id) {
         DownLoadEntity downLoadEntity = null;
         try {
-            downLoadEntity = DataBaseHelper.getInstance(context).getDownLoadDao().queryForId(id);
+            downLoadEntity = DataBaseHelper.getInstance(context.getApplicationContext()).getDownLoadDao().queryForId(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,7 @@ public class DownLoadDao {
     public DownLoadEntity getDownLoadEntityByUri(Context context, String uri) {
         DownLoadEntity entity = null;
         try {
-            List<DownLoadEntity> entities = DataBaseHelper.getInstance(context).getDownLoadDao().queryForEq(DownLoadEntity.COL_N_URI, uri);
+            List<DownLoadEntity> entities = DataBaseHelper.getInstance(context.getApplicationContext()).getDownLoadDao().queryForEq(DownLoadEntity.COL_N_URI, uri);
             if (entities.size() > 0) {
                 entity = entities.get(0);
             }
@@ -58,7 +58,7 @@ public class DownLoadDao {
 
     public List<DownLoadEntity> getall(Context c) {
         try {
-            return DataBaseHelper.getInstance(c).getDownLoadDao().queryForAll();
+            return DataBaseHelper.getInstance(c.getApplicationContext()).getDownLoadDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,6 +67,6 @@ public class DownLoadDao {
     }
 
     public void close(Context context) {
-        DataBaseHelper.getInstance(context).close();
+        DataBaseHelper.getInstance(context.getApplicationContext()).close();
     }
 }

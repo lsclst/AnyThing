@@ -16,8 +16,7 @@ import java.util.List;
 public class CollectionDao {
     public void save(Context context, GankItem collection) {
         try {
-            DataBaseHelper.getInstance(context.getApplicationContext()).getCollectionsDao()
-                    .createOrUpdate(collection);
+            DataBaseHelper.getInstance(context.getApplicationContext()).getCollectionsDao().createOrUpdate(collection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -26,8 +25,7 @@ public class CollectionDao {
     public GankItem getCollectionById(Context c, String id) {
         GankItem collection = null;
         try {
-            collection = DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao()
-                    .queryForId(id);
+            collection = DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao().queryForId(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -36,8 +34,7 @@ public class CollectionDao {
 
     public List<GankItem> getAllArticle(Context c) {
         try {
-            return DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao()
-                    .queryForEq(GankItem.COL_DATATYPE, GankItem.TYPE_ARTICLE);
+            return DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao().queryForEq(GankItem.COL_DATATYPE, GankItem.TYPE_ARTICLE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,8 +43,7 @@ public class CollectionDao {
 
     public List<GankItem> getAllImage(Context c) {
         try {
-            return DataBaseHelper.getInstance(c).getCollectionsDao()
-                    .queryForEq(GankItem.COL_DATATYPE, GankItem.TYPE_IMG);
+            return DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao().queryForEq(GankItem.COL_DATATYPE, GankItem.TYPE_IMG);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +53,7 @@ public class CollectionDao {
     public int deleteCollectionById(Context c, String id) {
         int deleteId = -1;
         try {
-            deleteId = DataBaseHelper.getInstance(c).getCollectionsDao().deleteById(id);
+            deleteId = DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao().deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,17 +61,15 @@ public class CollectionDao {
         return deleteId;
     }
 
-    public void deleteCollections(Context c,List<GankItem> collections){
+    public void deleteCollections(Context c, List<GankItem> collections) {
         try {
-            DataBaseHelper.getInstance(c).getCollectionsDao().delete(collections);
+            DataBaseHelper.getInstance(c.getApplicationContext()).getCollectionsDao().delete(collections);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void deleteAll(Context context) {
-        DataBaseHelper.getInstance(context)
-                .getWritableDatabase()
-                .delete(GankItem.TABLE_NAME, null, null);
+        DataBaseHelper.getInstance(context.getApplicationContext()).getWritableDatabase().delete(GankItem.TABLE_NAME, null, null);
     }
 }
