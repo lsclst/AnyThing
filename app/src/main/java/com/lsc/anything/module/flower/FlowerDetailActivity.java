@@ -176,8 +176,14 @@ public class FlowerDetailActivity extends ToolBarActivity {
             public void onTransitionEnd(Transition transition) {
                 super.onTransitionEnd(transition);
                 hideOrShowAppBar();
+                transition.removeListener(this);
             }
 
+            @Override
+            public void onTransitionCancel(Transition transition) {
+                super.onTransitionCancel(transition);
+                transition.removeListener(this);
+            }
 
             @Override
             public void onTransitionStart(Transition transition) {
